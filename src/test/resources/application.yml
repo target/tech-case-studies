@@ -1,0 +1,12 @@
+price:
+  data-file: src/main/resources/prices.csv
+availability:
+  data-file: src/main/resources/availability.csv
+item:
+  data-file: src/main/resources/items.csv
+
+cors:
+  allowed-origin-patterns: ["http://localhost:*"]
+  allowed-methods: ["*"]
+  allowed-headers: ["*"]
+  allow-credentials: false
