@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre@sha256:3443191793fb27f7df8bab42821d149eec9e280ab28e816e713387548c4dfcc6
+FROM eclipse-temurin:25-jre@sha256:04262e8782d6b034ee5d7c1c5d4e8938fcf2063a76b4bfcd84e5d994d09c27bc
 
 # Set the working directory in the container
 WORKDIR /app
