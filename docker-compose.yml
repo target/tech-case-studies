@@ -1,7 +1,15 @@
-
 services:
-  app:
+  data:
     build:
+      context: retail-data-services
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+  cart:
+    build:
+      context: cart-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - data

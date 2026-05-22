@@ -1,4 +1,7 @@
-rootProject.name = "retail-data-services"
+rootProject.name = "tech-case-studies"
+
+include("retail-data-services")
+include("cart-service")
 
 pluginManagement {
     repositories {
