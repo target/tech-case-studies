@@ -13,6 +13,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -23,6 +25,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -33,6 +37,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -43,6 +49,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -53,6 +61,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -63,6 +73,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -73,6 +85,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -83,6 +97,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -93,6 +109,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -103,6 +121,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -113,6 +133,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -123,6 +145,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -133,6 +157,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -143,6 +169,8 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
 
@@ -153,5 +181,7 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Asia/Kolkata"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
