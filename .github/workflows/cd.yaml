@@ -1,11 +1,8 @@
 name: Continuous Delivery
 
 on:
-  workflow_run:
-    workflows: [Continuous Integration]
-    types: [completed]
-    branches: [main]
   push:
+    branches: [main]
     tags: ['v*']
   pull_request:
     branches: [main]
@@ -51,7 +48,7 @@ jobs:
 
   docker-build-push:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'push' }}
     permissions:
       contents: read
       packages: write
