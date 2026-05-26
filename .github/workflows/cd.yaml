@@ -16,12 +16,13 @@ env:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   docker-dry-run:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' }}
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout
@@ -50,6 +51,9 @@ jobs:
   docker-build-push:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      contents: read
+      packages: write
     outputs:
       image-digest: ${{ steps.build.outputs.digest }}
 
