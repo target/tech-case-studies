@@ -2,9 +2,6 @@
 ### Health Check
 GET http://localhost:8081/actuator/health
 
-### Hello World
-GET http://localhost:8081/cart/v1/hello
-
 ### Get Cart
 GET http://localhost:8081/cart/v1/carts/100
 

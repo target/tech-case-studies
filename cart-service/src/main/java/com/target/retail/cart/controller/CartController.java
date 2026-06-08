@@ -15,7 +15,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,13 +33,6 @@ public class CartController {
         this.cartService = cartService;
         this.behaviors = behaviors;
     }
-
-    @GetMapping("/hello")
-    public String hello() {
-        cartService.getCart("789123");
-        return "Hello, World! The time now is: "+ LocalDateTime.now();
-    }
-
 
     @Operation(summary = "Create a new cart", description = "Creates a new cart with the provided items and returns the cart details.")
     @ApiResponses(value = {
