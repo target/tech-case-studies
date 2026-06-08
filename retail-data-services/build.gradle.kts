@@ -2,6 +2,10 @@ application {
     mainClass.set("com.target.retail.data.services.Main")
 }
 
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    archiveFileName.set("retail-data-services.jar")
+}
+
 dependencies {
     annotationProcessor(libs.spring.boot.configuration.processor)
 

@@ -2,6 +2,10 @@ application {
     mainClass.set("com.target.retail.cart.Main")
 }
 
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    archiveFileName.set("cart-service.jar")
+}
+
 dependencies {
     annotationProcessor(libs.spring.boot.configuration.processor)
 
