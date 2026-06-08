@@ -64,8 +64,9 @@ public class BehaviorsTest {
         long t1 = System.currentTimeMillis();
         testInstance.getConfiguredBehavior().execute( () -> someRandomCodeForTheTest(2231343)); // some random seed
         long t2 = System.currentTimeMillis();
-        assertTrue((t2 - t1) >= slowResponseBehaviorMinimumDelay, "Unexpected response time : Time in ms = "+(t2 - t1));
-
+        long elapsed = t2 - t1;
+        assertTrue(elapsed >= slowResponseBehaviorMinimumDelay, "Delay was below minimum: " + elapsed + "ms");
+        assertTrue(elapsed < slowResponseBehaviorMaximumDelay + 500, "Delay was above maximum: " + elapsed + "ms");
     }
 
     private double someRandomCodeForTheTest(int i) {
