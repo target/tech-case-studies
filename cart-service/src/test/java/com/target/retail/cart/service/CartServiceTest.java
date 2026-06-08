@@ -52,7 +52,7 @@ public class CartServiceTest {
         String cartId = "123";
         String tcin = "456";
         String deliveryZip = "78910";
-        StoredCartLine storedCartLine = new StoredCartLine("1", tcin, tcin, 2,  ZonedDateTime.now(), ZonedDateTime.now());
+        StoredCartLine storedCartLine = new StoredCartLine("1", cartId, tcin, 2,  ZonedDateTime.now(), ZonedDateTime.now());
         List<StoredCartLine> storedCartLines = List.of(storedCartLine);
 
         Item item = new Item(tcin, "Short description", "Long description", "Brand", "Category",  "MerchClass", "PrimaryImage", "AlternateImage", "BaseUrl");

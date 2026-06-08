@@ -85,13 +85,14 @@ public class CartService{
     public void removeItem(String cartId, String tcin) {
         Optional<Cart> cart = getCart(cartId);
         if (cart.isEmpty()) {
-            throw new RuntimeException("No cart found with id " + cart);
+            throw new RuntimeException("No cart found with id " + cartId);
         }
 
-        cart.get().cartLineItems().removeIf(it -> it.item().tcin().equals(tcin));
+        List<CartLineItem> updatedItems = cart.get().cartLineItems().stream()
+                .filter(it -> !it.item().tcin().equals(tcin))
+                .collect(Collectors.toList());
 
-        List<StoredCartLine> storedCartLines = cart.get().
-                cartLineItems().stream()
+        List<StoredCartLine> storedCartLines = updatedItems.stream()
                 .map(it ->
                         new StoredCartLine(it.lineItemId(),
                                 cart.get().id(),
