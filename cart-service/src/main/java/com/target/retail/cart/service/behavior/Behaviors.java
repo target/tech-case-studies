@@ -56,7 +56,7 @@ public class Behaviors {
 
     private <T> T callWithSlowResponse(Supplier<T> supplier) {
         try {
-            int delay = slowResponseBehaviorMinimumDelay + random.nextInt(slowResponseBehaviorMinimumDelay, (slowResponseBehaviorMaximumDelay - slowResponseBehaviorMinimumDelay));
+            int delay = random.nextInt(slowResponseBehaviorMinimumDelay, slowResponseBehaviorMaximumDelay);
             Thread.sleep(delay);
         }catch(InterruptedException interruptedException) {
             //hmmm ? // I miss Kotlin! :)
