@@ -25,7 +25,7 @@ public class Behaviors {
     @Value("${DEFAULT_BEHAVIOR:NORMAL}")
     private BehaviorType configuredDefaultBehavior;
 
-    private final Map<String,InducedBehavior> behaviorMap;
+    private final Map<BehaviorType,InducedBehavior> behaviorMap;
 
     private Random random;
 
@@ -33,9 +33,9 @@ public class Behaviors {
 
         random = new Random();
         behaviorMap = new HashMap<>();
-        behaviorMap.put(BehaviorType.NORMAL.name(), this::callWithNoInducedBehavior);
-        behaviorMap.put(BehaviorType.SLOW_RESPONSE.name(), this::callWithSlowResponse);
-        behaviorMap.put(BehaviorType.RANDOM_FAILURES.name(), this::callWithRandomFailures);
+        behaviorMap.put(BehaviorType.NORMAL, this::callWithNoInducedBehavior);
+        behaviorMap.put(BehaviorType.SLOW_RESPONSE, this::callWithSlowResponse);
+        behaviorMap.put(BehaviorType.RANDOM_FAILURES, this::callWithRandomFailures);
     }
 
     public Behaviors(BehaviorType defaultBehavior, double failingBehaviorFailureRate, int slowResponseBehaviorMinimumDelay, int slowResponseBehaviorMaximumDelay) {
@@ -57,7 +57,7 @@ public class Behaviors {
     }
 
     public Optional<InducedBehavior> getBehavior(BehaviorType type) {
-        return Optional.ofNullable(behaviorMap.get(type.name()));
+        return Optional.ofNullable(behaviorMap.get(type));
     }
 
     private <T> T callWithSlowResponse(Supplier<T> supplier) {
