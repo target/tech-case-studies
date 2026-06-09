@@ -12,9 +12,9 @@ cart:
 
 clients:
   price-service:
-    base-url: http://data:8080/retail_data_services/v1
+    base-url: http://product-api:8080/v1
   item-service:
-    base-url: http://data:8080/retail_data_services/v1
+    base-url: http://product-api:8080/v1
 
 taxes:
   defaultRate: 7.23

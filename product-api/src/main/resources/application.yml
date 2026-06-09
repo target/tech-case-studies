@@ -1,0 +1,44 @@
+spring:
+  main:
+    lazy-initialization: true
+  jmx:
+    enabled: false
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+impserver:
+  error:
+    whitelabel:
+      enabled: false
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: api-docs
+  swagger-ui:
+    enabled: true
+
+price:
+  data-file: /data/prices.csv
+  fast-change-prefix: "9012"
+
+availability:
+  data-file: /data/availability.csv
+  fast-change-prefix: "9012"
+
+item:
+  data-file: /data/items.csv
+
+behaviors:
+  random-failing:
+    failure-rate: 0.5
+  slow-response:
+    min-delay-ms: 1000
+    max-delay-ms: 5000

@@ -1,6 +1,6 @@
 rootProject.name = "tech-case-studies"
 
-include("retail-data-services")
+include("product-api")
 include("cart-service")
 
 pluginManagement {
