@@ -128,7 +128,7 @@ public class ItemControllerTest {
 
         assertEquals(0, responseBody.currentPage());
         assertTrue(responseBody.items().isEmpty());
-        assertEquals(0, responseBody.nextPage());
+        assertNull(responseBody.nextPage());
     }
 
     @Test
@@ -224,7 +224,7 @@ public class ItemControllerTest {
 
         assertTrue(responseBody.items().isEmpty());
         assertEquals(0, responseBody.currentPage());
-        assertEquals(0, responseBody.nextPage());
+        assertNull(responseBody.nextPage());
     }
 
     @Test

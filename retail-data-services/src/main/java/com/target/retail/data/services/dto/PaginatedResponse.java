@@ -14,6 +14,6 @@ public record PaginatedResponse<T>(int currentPage, List<T> items, Integer nextP
 
     private static Integer calculateNextPage(int currentPage, int totalItems, int pageSize) {
         int totalPages = (totalItems + pageSize - 1) / pageSize;
-        return (currentPage + 1 < totalPages) ? currentPage + 1 : 0;
+        return (currentPage + 1 < totalPages) ? currentPage + 1 : null;
     }
 }
