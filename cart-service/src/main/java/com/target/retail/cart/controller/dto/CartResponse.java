@@ -52,7 +52,7 @@ public record CartResponse(String id, List<ItemResponse> items, BigDecimal subto
 
         List<ItemResponse> items = cart.cartLineItems().stream().map(it -> new ItemResponse(it.item().tcin(),
                 it.item().title(), it.item().description(), it.item().brand(), it.item().merchClass(),
-                it.quantity(), new ItemResponse.PriceResponse(it.price().regularPrice(), it.price().salePrice().orElse(null)), new ItemResponse.ImageResponse(it.item().primaryImage(), it.item().alternateImage(), it.item().baseUrl()))).toList();
+                it.quantity(), new ItemResponse.PriceResponse(it.price().regularPrice(), it.price().salePrice().orElse(null)),                 new ItemResponse.ImageResponse(it.item().primary(), it.item().alternate(), it.item().baseUrl()))).toList();
 
         return new CartResponse(cart.id(), items, cart.subTotal(), cart.deliveryCharges(), cart.totalTax(), cart.getTotal(), cart.createdOn(), cart.updatedOn());
     }

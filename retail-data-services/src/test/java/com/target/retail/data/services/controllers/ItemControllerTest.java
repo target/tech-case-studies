@@ -41,7 +41,7 @@ public class ItemControllerTest {
     @Test
     public void testGetItem_Found() {
         Item item = new Item("901234", "Small Desc", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18,
-                "primary_image", "alternate_image", "http://target.com");
+                "primary", "alternate", "http://target.com");
         when(itemService.getItem("901234")).thenReturn(Optional.of(item));
 
         ResponseEntity<ItemResponse> response = itemController.getItem("901234");
@@ -67,7 +67,7 @@ public class ItemControllerTest {
     @Test
     public void testGetItem_ImageBlock() {
         Item item = new Item("901234", "Small Desc", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18,
-                "primary_image", "alternate_image", "http://target.com");
+                "primary", "alternate", "http://target.com");
         when(itemService.getItem("901234")).thenReturn(Optional.of(item));
 
         ResponseEntity<ItemResponse> response = itemController.getItem("901234");
@@ -78,8 +78,8 @@ public class ItemControllerTest {
         assertNotNull(responseBody);
 
         ImageData imageData = responseBody.imageData();
-        assertEquals("primary_image", imageData.primaryImage());
-        assertEquals("alternate_image", imageData.alternateImage());
+        assertEquals("primary", imageData.primary());
+        assertEquals("alternate", imageData.alternate());
         assertEquals("http://target.com", imageData.baseUrl());
     }
 
@@ -87,9 +87,9 @@ public class ItemControllerTest {
     public void getAllItems_ReturnsPaginatedResponse_WhenValidParameters() {
         List<Item> items = List.of(
                 new Item("901234", "Small Desc", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18,
-                        "primary_image", "alternate_image", "http://target.com"),
+                        "primary", "alternate", "http://target.com"),
                 new Item("901235", "Small Desc 2", "Long Desc 2", "Category 2", 13, "ONLINE", "Barcode 2", "Brand 2",
-                        21, "primary_image_2", "alternate_image_2", "http://target.com/2"));
+                        21, "primary_2", "alternate_2", "http://target.com/2"));
         when(itemService.getAllItems(0, 2, null)).thenReturn(items);
         when(itemService.getItemCount(null)).thenReturn(10);
 
@@ -176,9 +176,9 @@ public class ItemControllerTest {
     public void getAllItems_WithEmptySmallDescriptionFilter_ReturnsAllItems() {
         List<Item> allItems = List.of(
                 new Item("901234", "Small Desc", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18,
-                        "primary_image", "alternate_image", "http://target.com"),
+                        "primary", "alternate", "http://target.com"),
                 new Item("901235", "Small Desc 2", "Long Desc 2", "Category 2", 13, "ONLINE", "Barcode 2", "Brand 2",
-                        21, "primary_image_2", "alternate_image_2", "http://target.com/2"));
+                        21, "primary_2", "alternate_2", "http://target.com/2"));
         when(itemService.getAllItems(0, 2, "")).thenReturn(allItems);
         when(itemService.getItemCount("")).thenReturn(10);
 
@@ -196,7 +196,7 @@ public class ItemControllerTest {
     public void getAllItems_WithWhitespaceSmallDescriptionFilter_ReturnsAllItems() {
         List<Item> allItems = List.of(
                 new Item("901234", "Test Item", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18,
-                        "primary_image", "alternate_image", "http://target.com"));
+                        "primary", "alternate", "http://target.com"));
         when(itemService.getAllItems(0, 10, "   ")).thenReturn(allItems);
         when(itemService.getItemCount("   ")).thenReturn(1);
 

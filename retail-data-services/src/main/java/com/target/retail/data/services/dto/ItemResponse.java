@@ -16,9 +16,9 @@ public record ItemResponse(String itemId, String smallDescription, String longDe
     }
 
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-    public record ImageData(String primaryImage, String alternateImage, String baseUrl) {
+    public record ImageData(String primary, String alternate, String baseUrl) {
         public ImageData(Item item) {
-            this(item.primaryImage(), item.alternateImage(), item.baseUrl());
+            this(item.primary(), item.alternate(), item.baseUrl());
         }
     }
 }

@@ -32,7 +32,7 @@ public class ItemServiceTest {
 
     @Test
     public void testGetItem_Found() {
-        Item item = new Item("901234", "Small Desc", "Long Desc", "Category", 12 ,"IN-STORE", "Barcode", "Brand", 18, "primary_image", "alternate_image", "http://target.com");
+        Item item = new Item("901234", "Small Desc", "Long Desc", "Category", 12 ,"IN-STORE", "Barcode", "Brand", 18, "primary", "alternate", "http://target.com");
         when(itemData.getById("901234")).thenReturn(Optional.of(item));
 
         Optional<Item> response = itemService.getItem("901234");
@@ -59,21 +59,21 @@ public class ItemServiceTest {
 
     @Test
     public void testGetItem_ImageDetails() {
-        Item item = new Item("901234", "Small Desc", "Long Desc", "Category", 12 ,"IN-STORE", "Barcode", "Brand", 18, "primary_image", "alternate_image", "http://target.com");
+        Item item = new Item("901234", "Small Desc", "Long Desc", "Category", 12 ,"IN-STORE", "Barcode", "Brand", 18, "primary", "alternate", "http://target.com");
         when(itemData.getById("901234")).thenReturn(Optional.of(item));
 
         Optional<Item> response = itemService.getItem("901234");
 
         assertTrue(response.isPresent());
-        assertEquals("alternate_image", response.get().alternateImage());
-        assertEquals("primary_image", response.get().primaryImage());
+        assertEquals("alternate", response.get().alternate());
+        assertEquals("primary", response.get().primary());
         assertEquals("http://target.com", response.get().baseUrl());
     }
     @Test
     public void getItemCount_ReturnsPaginatedList_WhenValidPageAndSize() {
         List<Item> items = List.of(
-                new Item("901234", "Small Desc", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18, "primary_image", "alternate_image", "http://target.com"),
-                new Item("901235", "Small Desc 2", "Long Desc 2", "Category 2", 13, "ONLINE", "Barcode 2", "Brand 2", 21, "primary_image_2", "alternate_image_2", "http://target.com/2")
+                new Item("901234", "Small Desc", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18, "primary", "alternate", "http://target.com"),
+                new Item("901235", "Small Desc 2", "Long Desc 2", "Category 2", 13, "ONLINE", "Barcode 2", "Brand 2", 21, "primary_2", "alternate_2", "http://target.com/2")
         );
         when(itemData.getAll()).thenReturn(items);
 
@@ -86,7 +86,7 @@ public class ItemServiceTest {
     @Test
     public void getItemCount_ReturnsEmptyList_WhenPageOutOfBounds() {
         List<Item> items = List.of(
-                new Item("901234", "Small Desc", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18, "primary_image", "alternate_image", "http://target.com")
+                new Item("901234", "Small Desc", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18, "primary", "alternate", "http://target.com")
         );
         when(itemData.getAll()).thenReturn(items);
 
@@ -98,7 +98,7 @@ public class ItemServiceTest {
     @Test
     public void getItemCount_ReturnsEmptyList_WhenSizeIsZero() {
         List<Item> items = List.of(
-                new Item("901234", "Small Desc", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18, "primary_image", "alternate_image", "http://target.com")
+                new Item("901234", "Small Desc", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18, "primary", "alternate", "http://target.com")
         );
         when(itemData.getAll()).thenReturn(items);
 
@@ -110,8 +110,8 @@ public class ItemServiceTest {
     @Test
     public void getItemCount_ReturnsTotalItemCount() {
         List<Item> items = List.of(
-                new Item("901234", "Small Desc", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18, "primary_image", "alternate_image", "http://target.com"),
-                new Item("901235", "Small Desc 2", "Long Desc 2", "Category 2", 13, "ONLINE", "Barcode 2", "Brand 2", 21, "primary_image_2", "alternate_image_2", "http://target.com/2")
+                new Item("901234", "Small Desc", "Long Desc", "Category", 12, "IN-STORE", "Barcode", "Brand", 18, "primary", "alternate", "http://target.com"),
+                new Item("901235", "Small Desc 2", "Long Desc 2", "Category 2", 13, "ONLINE", "Barcode 2", "Brand 2", 21, "primary_2", "alternate_2", "http://target.com/2")
         );
         when(itemData.getCount()).thenReturn(items.size());
 

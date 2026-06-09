@@ -266,7 +266,7 @@ public class CartControllerTest {
         String itemId = "item%s".formatted(suffix);
 
         return new CartLineItem(lineId,
-                new Item(itemId, "Small Description", "Long Description", "Brand", "Category", "Class", "primaryImage", "alternateImage", "baseUrl"), 1, new Price(itemId, new BigDecimal("10"), Optional.empty()), ZonedDateTime.now(), ZonedDateTime.now());
+                new Item(itemId, "Small Description", "Long Description", "Brand", "Category", "Class", "primary", "alternate", "baseUrl"), 1, new Price(itemId, new BigDecimal("10"), Optional.empty()), ZonedDateTime.now(), ZonedDateTime.now());
     }
 
     private CartLineItem newCartLineItem() {

@@ -23,7 +23,7 @@ public class CartResponseTest {
                 "cart123",
                 new BigDecimal("10"),
                 new BigDecimal("10"),
-                List.of(new CartLineItem("1",new Item("12345", "Item Title", "Item Description", "Brand", "Category", "MerchClass", "primaryImage", "alternateImage", "baseUrl"), 2, new Price("12345", new BigDecimal("8.00"), Optional.of(new BigDecimal("6.00"))),
+                List.of(new CartLineItem("1",new Item("12345", "Item Title", "Item Description", "Brand", "Category", "MerchClass", "primary", "alternate", "baseUrl"), 2, new Price("12345", new BigDecimal("8.00"), Optional.of(new BigDecimal("6.00"))),
                 ZonedDateTime.now(),
                 ZonedDateTime.now())));
 
@@ -51,8 +51,8 @@ public class CartResponseTest {
         assertEquals(cartLineItem.quantity(), itemResponse.quantity());
         assertEquals(cartLineItem.price().regularPrice(), itemResponse.price().regular());
         assertEquals(cartLineItem.price().salePrice().orElse(null), itemResponse.price().sale());
-        assertEquals(cartLineItem.item().primaryImage(), itemResponse.imageData().primary());
-        assertEquals(cartLineItem.item().alternateImage(), itemResponse.imageData().alternate());
+        assertEquals(cartLineItem.item().primary(), itemResponse.imageData().primary());
+        assertEquals(cartLineItem.item().alternate(), itemResponse.imageData().alternate());
         assertEquals(cartLineItem.item().baseUrl(), itemResponse.imageData().baseUrl());
     }
 
@@ -64,7 +64,7 @@ public class CartResponseTest {
                 new BigDecimal("5.25"),
                 List.of(new CartLineItem(
                     "1",
-                    new Item("12345", "Item Title", "Item Description", "Brand", "Category", "MerchClass", "primaryImage", "alternateImage", "baseUrl"),
+                    new Item("12345", "Item Title", "Item Description", "Brand", "Category", "MerchClass", "primary", "alternate", "baseUrl"),
                     2,
                     new Price("12345", new BigDecimal("8.00"), Optional.of(new BigDecimal("6.50"))),
                     ZonedDateTime.now(),

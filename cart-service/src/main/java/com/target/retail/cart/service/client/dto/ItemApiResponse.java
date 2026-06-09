@@ -16,7 +16,7 @@ public record ItemApiResponse(String itemId,
                               ImageData imageData) {
 
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-    public record ImageData(String primaryImage, String alternateImage, String baseUrl) {
+    public record ImageData(String primary, String alternate, String baseUrl) {
 
     }
 }

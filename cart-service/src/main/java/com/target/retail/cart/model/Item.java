@@ -7,8 +7,8 @@ public record Item(
         String brand,
         String category,
         String merchClass,
-        String primaryImage,
-        String alternateImage,
+        String primary,
+        String alternate,
         String baseUrl
 ) {
 }
