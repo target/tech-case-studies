@@ -1,4 +1,6 @@
 .gradle
+**/build/
+!src/**/build/
 
 # Compiled class file
 *.class
@@ -6,19 +8,47 @@
 # Log file
 *.log
 
-build
-.kotlintest
-out
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+!gradle-wrapper.jar
+
+# Gradle
+gradle-app.setting
+.gradletasknamecache
+!gradle-wrapper.properties
+
+# IDE
+.idea
+.vscode
 *.ipr
 *.iml
 *.iws
+.project
+.classpath
+out
+.kotlintest
 
+# OS
 .DS_Store
 
-*.bkp
+# JVM crash logs
+hs_err_pid*
+replay_pid*
 
 # Benchmark results
 scripts/benchmark-results*.txt
 
-# IntelliJ
-.idea
+# Backup files
+*.bkp

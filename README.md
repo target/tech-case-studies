@@ -1,168 +1,194 @@
-# retail_data_services
+# tech-case-studies
 
 ## Overview
-The `retail_data_service` is a simple RESTful service providing endpoints to access a variety of data entities typical in a retail business. These data entities include item, price and availability.
 
-**Note:** All data returned by this service, including any examples shown below, is **mocked/sample data** intended for interviewing purposes only. It does not represent real or production retail data.
+A collection of containerized microservices used for technical interviews. Candidates pull the images (or build from source), run them locally, and build client applications against their APIs. All data is synthetic.
 
-## Endpoints
+## Services
 
-Note: There is a retail-data-services.http file that can be used as well.
+| Service              | Port | Description                                                                                                       |
+| -------------------- | ---- | ----------------------------------------------------------------------------------------------------------------- |
+| retail-data-services | 8080 | Read-only REST API serving synthetic product catalog, pricing, and inventory availability                         |
+| cart-service         | 8081 | Shopping cart REST API with CRUD operations. Calls retail-data-services at runtime for item and price enrichment. |
 
-### Open API Specification
-**Swagger UI:** http://localhost:8080/retail_data_services/v1/swagger-ui/index.html
+**Note:** All data returned by these services is mocked/sample data intended for interviewing purposes only. It does not represent real or production retail data.
 
-**API Docs:** http://localhost:8080/retail_data_services/v1/api-docs
+## Running the application
 
-The committed yaml version can be re-generated using the following command:
+### Option 1: docker compose (recommended)
+
+Build and run both services together:
+
 ```sh
-curl http://localhost:8080/retail_data_services/v1/api-docs.yaml > api-spec/retail_data_services-v1.yaml
+./gradlew clean build
+docker compose build
+docker compose up
 ```
----
-### Get Price
-Retrieve the price of a specific product by its ID.
 
-**URI:** `/retail_data_services/v1/prices/{id}`
+The services will be available at:
 
-**Method:** `GET`
+- retail-data-services: <http://localhost:8080/retail_data_services/v1/>
+- cart-service: <http://localhost:8081/cart/v1/>
 
-**Path Parameters:**
-- `id` (string): The ID of the product.
+To stop the services:
 
-**Response:**
-- `200 OK`: Returns the price details of the product.
-- `404 Not Found`: If the price is not found.
+```sh
+docker compose down
+```
 
-**Sample cURL Command:**
+### Option 2: docker run (individual services)
+
+Build and run each service separately. Note that cart-service depends on retail-data-services, so retail-data-services must be running first.
+
+```sh
+# Build both JARs
+./gradlew clean build
+
+# Build and run retail-data-services
+docker build -t retail-data-services retail-data-services/
+docker run -d -p 8080:8080 --name data retail-data-services
+
+# Build and run cart-service
+docker build -t cart-service cart-service/
+docker run -p 8081:8081 --name cart --link data:data cart-service
+```
+
+### OpenAPI specs
+
+Both services expose Swagger UI and OpenAPI docs:
+
+| Service              | Swagger UI                                                            | API docs                                                 |
+| -------------------- | --------------------------------------------------------------------- | -------------------------------------------------------- |
+| retail-data-services | <http://localhost:8080/retail_data_services/v1/swagger-ui/index.html> | <http://localhost:8080/retail_data_services/v1/api-docs> |
+| cart-service         | <http://localhost:8081/swagger-ui/index.html>                         | <http://localhost:8081/api-docs>                         |
+
+HTTP request files for use with IntelliJ or VS Code are available at:
+
+- `retail-data-services/retail-data-services.http`
+- `cart-service/cart-service.http`
+
+## retail-data-services endpoints
+
+### Get price
+
+**`GET /retail_data_services/v1/prices/{id}`**
+
 ```sh
 curl -X GET "http://localhost:8080/retail_data_services/v1/prices/123456"
 ```
----
-### Get Item
-**URI:** `/retail_data_services/v1/items/{id}`
 
-**Method:** `GET`
+### Get item
 
-**Path Parameters:**
-- `id` (string): The ID of the item.
+**`GET /retail_data_services/v1/items/{id}`**
 
-**Response:**
-- `200 OK`: Returns the item details.
-- `404 Not Found`: If the item is not found.
-
-**Sample cURL Command:**
 ```sh
 curl -X GET "http://localhost:8080/retail_data_services/v1/items/123456"
 ```
----
-### List Items
-**URI:** `/retail_data_services/v1/items`
 
-**Method:** `GET`
+### List items
 
-**Response:**
-- `200 OK`: Returns the item details.
+**`GET /retail_data_services/v1/items`**
 
-**Sample cURL Command:**
+Supports filtering by `small_description` query parameter.
+
 ```sh
 curl -X GET "http://localhost:8080/retail_data_services/v1/items"
-```
----
-### Filter Item List by Small Description
-**URI:** `/retail_data_services/v1/items`
-
-**Method:** `GET`
-
-**Query Parameters:**
-- `small_description` (string): The small description to filter items by.
-
-**Response:**
-- `200 OK`: Returns the filtered item details.
-
-**Sample cURL Command:**
-```sh
 curl -X GET "http://localhost:8080/retail_data_services/v1/items?small_description=jersey"
 ```
----
-### Get Availability
-**URI:** `/retail_data_services/v1/availability/{id}`
 
-**Method:** `GET`
+### Get availability
 
-**Path Parameters:**
-- `id` (string): The ID of the item.
+**`GET /retail_data_services/v1/availability/{id}`**
 
-**Response:**
-- `200 OK`: Returns the units of the item available for ordering .
-- `404 Not Found`: If the item availability is not found.
-
-**Sample cURL Command:**
 ```sh
 curl -X GET "http://localhost:8080/retail_data_services/v1/availability/123456"
 ```
----
 
-### Performance Benchmarking
+## cart-service endpoints
 
-A startup time benchmarking script is available in `scripts/benchmark-startup.sh`. 
-This script measures Docker container startup time and generates performance reports.
+cart-service depends on retail-data-services at runtime. When a cart is read, the service calls retail-data-services over HTTP to enrich each line item with product details and pricing. It then calculates taxes (by product category) and delivery charges.
 
-See `scripts/README.md` for usage details.
+### Get cart
 
----
-
-### Running the Application
-
-#### Option 1: Using docker run (Recommended)
-
-Build and run the Docker container directly:
+**`GET /cart/v1/carts/{id}`**
 
 ```sh
-# 1. Build the application JAR
-./gradlew clean build
-
-# 2. Build the Docker image
-docker build -t retail-data-services .
-
-# 3. Run the container
-docker run -p 8080:8080 retail-data-services
+curl 'http://localhost:8081/cart/v1/carts/100' -i -X GET
 ```
 
-The application will be available at http://localhost:8080/retail_data_services/v1/
+### Create cart
 
-To run in the background (detached mode):
+**`POST /cart/v1/carts`**
+
+Request body: array of objects with `tcin` (string) and `quantity` (integer).
 
 ```sh
-docker run -d -p 8080:8080 --name retail-data-services retail-data-services
+curl 'http://localhost:8081/cart/v1/carts' -i -X POST \
+  -H 'Content-Type: application/json' \
+  -d '[
+    {"tcin" : "123456", "quantity": 1},
+    {"tcin" : "789123", "quantity": 2}
+  ]'
 ```
 
-To stop the container:
+### Add item to cart
+
+**`POST /cart/v1/carts/{id}/items`**
 
 ```sh
-docker stop retail-data-services
-docker rm retail-data-services
+curl 'http://localhost:8081/cart/v1/carts/100/items' -i -X POST \
+  -H 'Content-Type: application/json' \
+  -d '{"tcin" : "456788", "quantity": 2}'
 ```
 
-#### Option 2: Using docker-compose
+### Update item quantity
 
-Alternatively, use docker-compose:
+**`PATCH /cart/v1/carts/{id}/items/{tcin}`**
 
 ```sh
-./gradlew buildAndRunDockerCompose
+curl 'http://localhost:8081/cart/v1/carts/100/items/456788' -i -X PATCH \
+  -H 'Content-Type: application/json' \
+  -d '{"quantity": 3}'
 ```
-### Customizing the data
-You can customize the data returned from teh services by creating your own CSV files for the various services.
-See the documentation at [data-formats.md](data-formats.md) for details.
 
-### Induced Behaviors (Latency and Failure Simulation)
+### Remove item from cart
 
-This service can run with configurable **induced behaviors** that wrap the logic used to generate API responses. By setting environment variables when you start the container, you can run the same APIs in different modes (normal, slow, or randomly failing) without changing any code. This is intended to help candidates test how their applications handle latency and failures.
+**`DELETE /cart/v1/carts/{id}/items/{tcin}`**
 
-See `induced_behaviors.md` for:
+Removing the last item from a cart also removes the cart.
 
-- An overview of the behavior mechanism and behavior selection (`DEFAULT_BEHAVIOR`).
-- The available modes: `NORMAL`, `SLOW_RESPONSE`, and `RANDOM_FAILURES`.
-- Environment variables that control behavior tuning.
-- `docker run` and `docker-compose` examples for starting the service in each mode.
+```sh
+curl 'http://localhost:8081/cart/v1/carts/100/items/456788' -i -X DELETE
+```
 
+## Customizing data
 
+You can customize the data returned by retail-data-services by creating your own CSV files and mounting them into the container. See [retail-data-services/data-formats.md](retail-data-services/data-formats.md) for details.
+
+## Induced behaviors (latency and failure simulation)
+
+Both services support configurable induced behaviors that simulate latency and failures. By setting the `DEFAULT_BEHAVIOR` environment variable, you can run the same APIs in different modes (normal, slow, or randomly failing) without changing any code.
+
+See [retail-data-services/induced_behaviors.md](retail-data-services/induced_behaviors.md) for available modes, environment variables, and usage examples.
+
+## Performance benchmarking
+
+A startup time benchmarking script is available at `retail-data-services/scripts/benchmark-startup.sh`. See `retail-data-services/scripts/README.md` for usage details.
+
+## Project structure
+
+```txt
+tech-case-studies/
+  retail-data-services/       # Read-only data API (port 8080)
+    src/
+    Dockerfile
+    build.gradle.kts
+  cart-service/                # Shopping cart API (port 8081)
+    src/
+    Dockerfile
+    build.gradle.kts
+  docker-compose.yml           # Orchestrates both services
+  build.gradle.kts             # Root Gradle build (shared config)
+  settings.gradle.kts          # Multi-project includes
+  gradle/libs.versions.toml    # Shared dependency versions
+```
