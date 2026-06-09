@@ -6,7 +6,7 @@ public record Item(
         String description,
         String brand,
         String category,
-        String merchClass,
+        Integer merchClass,
         String primary,
         String alternate,
         String baseUrl

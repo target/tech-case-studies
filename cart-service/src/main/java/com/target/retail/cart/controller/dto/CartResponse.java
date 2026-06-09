@@ -41,7 +41,7 @@ public record CartResponse(String id, List<ItemResponse> items, BigDecimal subto
     }
 
 
-    public record ItemResponse(String itemId, String title, String description, String brand, String merchClass, Integer quantity, PriceResponse price, ImageResponse imageData) {
+    public record ItemResponse(String itemId, String title, String description, String brand, Integer merchClass, Integer quantity, PriceResponse price, ImageResponse imageData) {
 
         public record PriceResponse(BigDecimal regular, BigDecimal sale) {}
 

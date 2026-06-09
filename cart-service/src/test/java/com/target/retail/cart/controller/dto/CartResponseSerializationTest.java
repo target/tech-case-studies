@@ -33,7 +33,7 @@ public class CartResponseSerializationTest {
                 new BigDecimal("5.00"),
                 List.of(new CartLineItem(
                         "1",
-                        new Item("12345", "Title", "Description", "Brand", "APPAREL", "MerchClass",
+                        new Item("12345", "Title", "Description", "Brand", "APPAREL", 12,
                                 "primary", "alternate", "baseUrl"),
                         1,
                         new Price("12345", new BigDecimal("10.00"), Optional.empty()),

@@ -175,7 +175,7 @@ public class CartService{
                 itemApiResponse.longDescription(),
                 itemApiResponse.brandName(),
                 itemApiResponse.category(),
-                itemApiResponse.merchClass().toString(),
+                itemApiResponse.merchClass(),
                 itemApiResponse.imageData().primary(),
                 itemApiResponse.imageData().alternate(),
                 itemApiResponse.imageData().baseUrl());

@@ -55,7 +55,7 @@ public class CartServiceTest {
         StoredCartLine storedCartLine = new StoredCartLine("1", cartId, itemId, 2,  ZonedDateTime.now(), ZonedDateTime.now());
         List<StoredCartLine> storedCartLines = List.of(storedCartLine);
 
-        Item item = new Item(itemId, "Short description", "Long description", "Brand", "Category",  "MerchClass", "PrimaryImage", "AlternateImage", "BaseUrl");
+        Item item = new Item(itemId, "Short description", "Long description", "Brand", "Category",  12, "PrimaryImage", "AlternateImage", "BaseUrl");
         Price price = new Price(itemId, BigDecimal.valueOf(10.00), Optional.of(BigDecimal.valueOf(8.00)));
         CartLineItem cartLineItem = new CartLineItem("1", item, 2, price, ZonedDateTime.now(), ZonedDateTime.now());
 
@@ -90,7 +90,7 @@ public class CartServiceTest {
 
         List<StoredCartLine> storedCartLines = List.of(storedCartLine1, storedCartLine2);
 
-        Item item = new Item(itemId1, "Short description", "Long description", "Brand", "Category", "MerchClass", "PrimaryImage", "AlternateImage", "BaseUrl");
+        Item item = new Item(itemId1, "Short description", "Long description", "Brand", "Category", 12, "PrimaryImage", "AlternateImage", "BaseUrl");
         Price price = new Price(itemId1, BigDecimal.valueOf(10.00), Optional.of(BigDecimal.valueOf(8.00)));
         CartLineItem cartLineItem = new CartLineItem("1", item, 2, price, ZonedDateTime.now(), ZonedDateTime.now());
 

@@ -23,7 +23,7 @@ public class CartResponseTest {
                 "cart123",
                 new BigDecimal("10"),
                 new BigDecimal("10"),
-                List.of(new CartLineItem("1",new Item("12345", "Item Title", "Item Description", "Brand", "Category", "MerchClass", "primary", "alternate", "baseUrl"), 2, new Price("12345", new BigDecimal("8.00"), Optional.of(new BigDecimal("6.00"))),
+                List.of(new CartLineItem("1",new Item("12345", "Item Title", "Item Description", "Brand", "Category", 12, "primary", "alternate", "baseUrl"), 2, new Price("12345", new BigDecimal("8.00"), Optional.of(new BigDecimal("6.00"))),
                 ZonedDateTime.now(),
                 ZonedDateTime.now())));
 
@@ -64,7 +64,7 @@ public class CartResponseTest {
                 new BigDecimal("5.25"),
                 List.of(new CartLineItem(
                     "1",
-                    new Item("12345", "Item Title", "Item Description", "Brand", "Category", "MerchClass", "primary", "alternate", "baseUrl"),
+                    new Item("12345", "Item Title", "Item Description", "Brand", "Category", 12, "primary", "alternate", "baseUrl"),
                     2,
                     new Price("12345", new BigDecimal("8.00"), Optional.of(new BigDecimal("6.50"))),
                     ZonedDateTime.now(),
