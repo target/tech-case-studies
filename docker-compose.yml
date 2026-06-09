@@ -5,6 +5,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
   cart:
     build:
       context: cart-service
@@ -12,4 +18,5 @@ services:
     ports:
       - "8081:8081"
     depends_on:
-      - data
+      data:
+        condition: service_healthy
