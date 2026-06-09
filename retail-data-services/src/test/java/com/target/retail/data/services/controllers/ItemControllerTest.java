@@ -4,6 +4,7 @@ import com.target.retail.data.services.controller.ItemController;
 import com.target.retail.data.services.dto.ItemResponse;
 import com.target.retail.data.services.dto.ItemResponse.ImageData;
 import com.target.retail.data.services.dto.PaginatedResponse;
+import com.target.retail.data.services.exception.ItemNotFoundException;
 import com.target.retail.data.services.model.Item;
 import com.target.retail.data.services.service.ItemService;
 import com.target.retail.data.services.service.behavior.Behaviors;
@@ -58,10 +59,7 @@ public class ItemControllerTest {
     @Test
     public void testGetItem_NotFound() {
         when(itemService.getItem("999999")).thenReturn(Optional.empty());
-
-        ResponseEntity<ItemResponse> response = itemController.getItem("999999");
-
-        assertEquals(404, response.getStatusCode().value());
+        assertThrows(ItemNotFoundException.class, () -> itemController.getItem("999999"));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.target.retail.data.services.controller;
 
 import com.target.retail.data.services.dto.AvailabilityResponse;
+import com.target.retail.data.services.exception.AvailabilityNotFoundException;
 import com.target.retail.data.services.model.ItemAvailability;
 import com.target.retail.data.services.service.AvailabilityService;
 import com.target.retail.data.services.service.behavior.Behaviors;
@@ -43,7 +44,7 @@ public class AvailabilityController {
         return behaviors.getConfiguredBehavior().execute(() ->
                 itemAvailability.map(it ->
                                 ResponseEntity.ok(new AvailabilityResponse(it)))
-                        .orElseGet(() -> ResponseEntity.notFound().build())
+                        .orElseThrow(() -> new AvailabilityNotFoundException(id))
         );
     }
 

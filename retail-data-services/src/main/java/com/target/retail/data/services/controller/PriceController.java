@@ -1,6 +1,7 @@
 package com.target.retail.data.services.controller;
 
 import com.target.retail.data.services.dto.PriceResponse;
+import com.target.retail.data.services.exception.PriceNotFoundException;
 import com.target.retail.data.services.model.ItemPrice;
 import com.target.retail.data.services.service.PriceService;
 import com.target.retail.data.services.service.behavior.Behaviors;
@@ -32,7 +33,7 @@ public class PriceController {
     @GetMapping("/prices/{id}")
     public ResponseEntity<PriceResponse> getPrice(@PathVariable String id) {
         Optional<ItemPrice> itemPrice = priceService.getPrice(id);
-        return behaviors.getConfiguredBehavior().execute(() -> itemPrice.map(price -> ResponseEntity.ok(new PriceResponse(price))).orElseGet(() -> ResponseEntity.notFound().build()));
+        return behaviors.getConfiguredBehavior().execute(() -> itemPrice.map(price -> ResponseEntity.ok(new PriceResponse(price))).orElseThrow(() -> new PriceNotFoundException(id)));
     }
 
 }

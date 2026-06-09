@@ -2,6 +2,7 @@ package com.target.retail.data.services.controller;
 
 import com.target.retail.data.services.dto.ItemResponse;
 import com.target.retail.data.services.dto.PaginatedResponse;
+import com.target.retail.data.services.exception.ItemNotFoundException;
 import com.target.retail.data.services.model.Item;
 import com.target.retail.data.services.service.ItemService;
 import com.target.retail.data.services.service.behavior.Behaviors;
@@ -35,7 +36,9 @@ public class ItemController {
     @GetMapping("/items/{id}")
     public ResponseEntity<ItemResponse> getItem(@PathVariable String id) {
         Optional<Item> item = itemService.getItem(id);
-        return behaviors.getConfiguredBehavior().execute(() -> item.map(it -> ResponseEntity.ok(new ItemResponse(it))).orElseGet(() -> ResponseEntity.notFound().build()));
+        return behaviors.getConfiguredBehavior().execute(() -> item
+                .map(it -> ResponseEntity.ok(new ItemResponse(it)))
+                .orElseThrow(() -> new ItemNotFoundException(id)));
     }
 
     @Operation(summary = "Get all products with pagination", description = "Returns a paginated list of products with optional filtering.")

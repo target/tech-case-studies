@@ -1,6 +1,8 @@
 package com.target.retail.cart.service;
 
 import com.target.retail.cart.data.CartDatabase;
+import com.target.retail.cart.exception.CartLineItemNotFoundException;
+import com.target.retail.cart.exception.CartNotFoundException;
 import com.target.retail.cart.service.client.dto.ItemApiResponse;
 import com.target.retail.cart.service.client.dto.PriceApiResponse;
 import com.target.retail.cart.model.StoredCartLine;
@@ -85,7 +87,7 @@ public class CartService{
     public void removeItem(String cartId, String itemId) {
         Optional<Cart> cart = getCart(cartId);
         if (cart.isEmpty()) {
-            throw new RuntimeException("No cart found with id " + cartId);
+            throw new CartNotFoundException(cartId);
         }
 
         List<CartLineItem> updatedItems = cart.get().cartLineItems().stream()
@@ -107,7 +109,7 @@ public class CartService{
     public void addItem(String cartId, String itemId, Integer quantity) {
         List<StoredCartLine> storedCartLines = new ArrayList<>(cartDatabase.getCart(cartId));
         if (storedCartLines.isEmpty()) {
-            throw new RuntimeException("No cart found with id " + cartId);
+            throw new CartNotFoundException(cartId);
         }
 
         Optional<StoredCartLine> storedCartLineForItemId = storedCartLines.stream().filter(it -> it.itemId().equals(itemId)).findFirst();
@@ -138,7 +140,7 @@ public class CartService{
             }
             cartDatabase.updateCart(cartId, storedCartLines);
         } else {
-            throw new RuntimeException("No cart line found for item id " + itemId);
+            throw new CartLineItemNotFoundException(itemId);
         }
 
     }

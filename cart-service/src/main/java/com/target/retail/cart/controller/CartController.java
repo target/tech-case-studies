@@ -4,7 +4,6 @@ import com.target.retail.cart.controller.dto.AddItemRequest;
 import com.target.retail.cart.controller.dto.CartResponse;
 import com.target.retail.cart.controller.dto.UpdateItemRequest;
 import com.target.retail.cart.model.Cart;
-import com.target.retail.cart.model.CartLineItem;
 import com.target.retail.cart.service.CartService;
 import com.target.retail.cart.service.behavior.Behaviors;
 import io.swagger.v3.oas.annotations.Operation;
@@ -85,9 +84,6 @@ public class CartController {
     })
     @DeleteMapping("/carts/{id}/items/{itemId}")
     public ResponseEntity<CartResponse> removeItemFromCart(@PathVariable String id, @PathVariable String itemId) {
-        if(cartService.getCart(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         cartService.removeItem(id, itemId);
         if (cartService.getCart(id).isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -106,9 +102,6 @@ public class CartController {
     })
     @PostMapping("/carts/{id}/items")
     public ResponseEntity<CartResponse> addItem(@PathVariable String id, @RequestBody AddItemRequest addItemRequest) {
-        if(cartService.getCart(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         cartService.addItem(id, addItemRequest.itemId(), addItemRequest.quantity());
         return getCart(id);
     }
@@ -123,16 +116,8 @@ public class CartController {
     })
     @PatchMapping("/carts/{id}/items/{itemId}")
     public ResponseEntity<CartResponse> updateItem(@PathVariable String id, @PathVariable String itemId, @RequestBody UpdateItemRequest updateItemRequest) {
-
-        Optional<CartLineItem> cartLineItem = cartService.getCart(id)
-                .flatMap(it -> it.findByItemId(itemId));
-        if(cartLineItem.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
         cartService.updateCartItem(id, itemId, updateItemRequest.quantity());
         return getCart(id);
-
     }
 
 }

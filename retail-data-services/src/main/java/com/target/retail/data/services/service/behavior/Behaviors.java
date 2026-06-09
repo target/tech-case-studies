@@ -1,5 +1,6 @@
 package com.target.retail.data.services.service.behavior;
 
+import com.target.retail.data.services.exception.InducedFailureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -76,7 +77,7 @@ public class Behaviors {
     private <T> T callWithRandomFailures(Supplier<T> supplier) {
 
         if(random.nextDouble() < failingBehaviorFailureRate) {
-            throw new RuntimeException("Failure to call the service. Please try later");
+            throw new InducedFailureException("Failure to call the service. Please try later");
         }
         return supplier.get();
     }

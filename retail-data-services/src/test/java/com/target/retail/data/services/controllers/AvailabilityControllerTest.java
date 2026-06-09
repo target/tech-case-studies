@@ -2,6 +2,7 @@ package com.target.retail.data.services.controllers;
 
 import com.target.retail.data.services.controller.AvailabilityController;
 import com.target.retail.data.services.dto.AvailabilityResponse;
+import com.target.retail.data.services.exception.AvailabilityNotFoundException;
 import com.target.retail.data.services.model.ItemAvailability;
 import com.target.retail.data.services.service.AvailabilityService;
 import com.target.retail.data.services.service.behavior.Behaviors;
@@ -16,6 +17,7 @@ import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -60,8 +62,7 @@ class AvailabilityControllerTest {
     void shouldReturn404WhenAvailabilityNotFound() {
         String productId = "11111";
         when(availabilityService.getItemAvailability(productId)).thenReturn(Optional.empty());
-        ResponseEntity<AvailabilityResponse> response = availabilityController.getAvailability(productId);
-        assertEquals(404, response.getStatusCode().value(), "Unexpected HTTP Status " + response.getStatusCode());
+        assertThrows(AvailabilityNotFoundException.class, () -> availabilityController.getAvailability(productId));
     }
 
 }

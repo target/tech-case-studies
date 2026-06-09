@@ -1,6 +1,7 @@
 package com.target.retail.data.services.controllers;
 
 import com.target.retail.data.services.dto.PriceResponse;
+import com.target.retail.data.services.exception.PriceNotFoundException;
 import com.target.retail.data.services.model.ItemPrice;
 import com.target.retail.data.services.service.PriceService;
 import com.target.retail.data.services.controller.PriceController;
@@ -17,6 +18,7 @@ import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -59,6 +61,13 @@ class PriceControllerTest {
 
         assertEquals(BigDecimal.valueOf(19.99), responseBody.regular(), "Price does not match.");
         assertEquals("REGULAR", responseBody.priceType(), "Price type does not match.");
+    }
+
+    @Test
+    void shouldThrowPriceNotFoundException_WhenPriceNotFound() {
+        String productId = "99999";
+        when(priceService.getPrice(productId)).thenReturn(Optional.empty());
+        assertThrows(PriceNotFoundException.class, () -> priceController.getPrice(productId));
     }
 
 }

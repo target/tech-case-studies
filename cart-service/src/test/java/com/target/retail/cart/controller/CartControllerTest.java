@@ -12,11 +12,13 @@ import com.target.retail.cart.service.behavior.Behaviors;
 import com.target.retail.cart.service.behavior.InducedBehavior;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.target.retail.cart.exception.CartNotFoundException;
+import com.target.retail.cart.exception.CartLineItemNotFoundException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
 
+import org.springframework.http.ResponseEntity;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 public class CartControllerTest {
@@ -118,7 +121,6 @@ public class CartControllerTest {
 
         // Mock behavior
         when(cartService.getCart("cart123"))
-                .thenReturn(Optional.of(mockCart))
                 .thenReturn(Optional.empty());
         when(behaviors.getConfiguredBehavior()).thenReturn(createInducedBehavior());
 
@@ -131,15 +133,10 @@ public class CartControllerTest {
 
     @Test
     public void testRemoveItemFromCartWhenCartDoesNotExist() {
-        // Mock behavior
-        when(cartService.getCart("cart123")).thenReturn(Optional.empty());
         when(behaviors.getConfiguredBehavior()).thenReturn(createInducedBehavior());
+        org.mockito.Mockito.doThrow(new CartNotFoundException("cart123")).when(cartService).removeItem("cart123", "item1");
 
-        // Execute the method
-        ResponseEntity<CartResponse> response = cartController.removeItemFromCart("cart123", "item1");
-
-        // Verify the response
-        assertEquals(ResponseEntity.notFound().build(), response);
+        assertThrows(CartNotFoundException.class, () -> cartController.removeItemFromCart("cart123", "item1"));
     }
 
     @Test
@@ -168,44 +165,26 @@ public class CartControllerTest {
 
     @Test
     public void testUpdateCartItemWhenCartDoesNotExist() {
-        // Mock data
         String cartId = "cart123";
         String itemId = "item1";
         int newQuantity = 5;
 
-        // Mock behavior
-        when(cartService.getCart(cartId)).thenReturn(Optional.empty());
         when(behaviors.getConfiguredBehavior()).thenReturn(createInducedBehavior());
+        org.mockito.Mockito.doThrow(new CartNotFoundException(cartId)).when(cartService).updateCartItem(cartId, itemId, newQuantity);
 
-        // Execute the method
-        ResponseEntity<CartResponse> response = cartController.updateItem(cartId, itemId, new UpdateItemRequest(newQuantity));
-
-        // Verify the response
-        assertEquals(ResponseEntity.notFound().build(), response);
+        assertThrows(CartNotFoundException.class, () -> cartController.updateItem(cartId, itemId, new UpdateItemRequest(newQuantity)));
     }
 
     @Test
     public void testUpdateCartItemWhenItemIdNotFoundInCart() {
-        // Mock data
         String cartId = "cart123";
         String itemId = "missingItemId";
         int newQuantity = 5;
-        Cart mockCart = new Cart(
-                cartId,
-                new BigDecimal("10"),
-                new BigDecimal("10"),
-                List.of(newCartLineItem())
-        );
 
-        // Mock behavior
-        when(cartService.getCart(cartId)).thenReturn(Optional.of(mockCart));
         when(behaviors.getConfiguredBehavior()).thenReturn(createInducedBehavior());
+        org.mockito.Mockito.doThrow(new CartLineItemNotFoundException(itemId)).when(cartService).updateCartItem(cartId, itemId, newQuantity);
 
-        // Execute the method
-        ResponseEntity<CartResponse> response = cartController.updateItem(cartId, itemId, new UpdateItemRequest(newQuantity));
-
-        // Verify the response
-        assertEquals(ResponseEntity.notFound().build(), response);
+        assertThrows(CartLineItemNotFoundException.class, () -> cartController.updateItem(cartId, itemId, new UpdateItemRequest(newQuantity)));
     }
 
     @Test

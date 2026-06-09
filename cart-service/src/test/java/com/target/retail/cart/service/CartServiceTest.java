@@ -1,6 +1,7 @@
 package com.target.retail.cart.service;
 
 import com.target.retail.cart.data.CartDatabase;
+import com.target.retail.cart.exception.CartLineItemNotFoundException;
 import com.target.retail.cart.model.Cart;
 import com.target.retail.cart.model.CartLineItem;
 import com.target.retail.cart.model.Item;
@@ -209,9 +210,9 @@ public class CartServiceTest {
         // Mock an empty cart or a cart without the specified TCIN
         when(cartDatabase.getCart(cartId)).thenReturn(List.of());
 
-        // Assert that the method throws a RuntimeException
-        RuntimeException exception = org.junit.jupiter.api.Assertions.assertThrows(
-                RuntimeException.class,
+        // Assert that the method throws a CartLineItemNotFoundException
+        CartLineItemNotFoundException exception = org.junit.jupiter.api.Assertions.assertThrows(
+                CartLineItemNotFoundException.class,
                 () -> cartService.updateCartItem(cartId, itemId, newQuantity)
         );
 
