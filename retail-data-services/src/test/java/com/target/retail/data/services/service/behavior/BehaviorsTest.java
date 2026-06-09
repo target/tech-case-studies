@@ -38,7 +38,7 @@ public class BehaviorsTest {
 
     @Test
     public void testRandomFailureBehavior() {
-        Behaviors testInstance = new Behaviors(BehaviorType.RANDOM_FAILURES, failingFailureRate, slowResponseBehaviorMinimumDelay, slowResponseBehaviorMaximumDelay);
+        Behaviors testInstance = new Behaviors(BehaviorType.RANDOM_FAILURES, failingFailureRate, slowResponseBehaviorMinimumDelay, slowResponseBehaviorMaximumDelay, new Random(42));
 
         int failureCount = 0;
         int successCount = 0;

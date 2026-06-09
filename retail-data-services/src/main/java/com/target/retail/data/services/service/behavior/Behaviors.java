@@ -26,7 +26,7 @@ public class Behaviors {
 
     private final Map<String,InducedBehavior> behaviorMap;
 
-    private final Random random;
+    private Random random;
 
     public Behaviors() {
 
@@ -43,6 +43,11 @@ public class Behaviors {
         this.failingBehaviorFailureRate = failingBehaviorFailureRate;
         this.slowResponseBehaviorMinimumDelay = slowResponseBehaviorMinimumDelay;
         this.slowResponseBehaviorMaximumDelay = slowResponseBehaviorMaximumDelay;
+    }
+
+    public Behaviors(BehaviorType defaultBehavior, double failingBehaviorFailureRate, int slowResponseBehaviorMinimumDelay, int slowResponseBehaviorMaximumDelay, Random random) {
+        this(defaultBehavior, failingBehaviorFailureRate, slowResponseBehaviorMinimumDelay, slowResponseBehaviorMaximumDelay);
+        this.random = random;
     }
 
     public InducedBehavior getConfiguredBehavior() {
