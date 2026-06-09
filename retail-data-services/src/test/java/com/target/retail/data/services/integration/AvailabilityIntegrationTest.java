@@ -16,7 +16,7 @@ public class AvailabilityIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void testGetAvailability_notfound() throws Exception {
-        getResponse("/availability/ " + invalidProductId)
+        getResponse("/availability/" + invalidProductId)
                 .andExpect(status().isNotFound());
     }
 }

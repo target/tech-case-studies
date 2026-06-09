@@ -16,7 +16,7 @@ public class ItemIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void testGetItem_notfound() throws Exception {
-        getResponse("/items/ " + invalidProductId)
+        getResponse("/items/" + invalidProductId)
                 .andExpect(status().isNotFound());
     }
 

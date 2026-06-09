@@ -16,7 +16,7 @@ public class PriceIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void testGetPrice_notfound() throws Exception {
-        getResponse("/prices/ " + invalidProductId)
+        getResponse("/prices/" + invalidProductId)
                 .andExpect(status().isNotFound());
     }
 }
