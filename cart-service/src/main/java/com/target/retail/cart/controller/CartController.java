@@ -39,18 +39,18 @@ public class CartController {
             @ApiResponse(responseCode = "200", description = "Successfully created cart",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = CartResponse.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid request due to duplicate TCINs",
+            @ApiResponse(responseCode = "400", description = "Invalid request due to duplicate item IDs",
                     content = @Content)
     })
     @PostMapping("/carts")
     public ResponseEntity<CartResponse> createCart(@RequestBody List<AddItemRequest> addItems) {
 
-        if (addItems.stream().map(AddItemRequest::tcin).distinct().count() != addItems.size()) {
+        if (addItems.stream().map(AddItemRequest::itemId).distinct().count() != addItems.size()) {
             return ResponseEntity.badRequest().build();
         }
 
         Map<String, Integer> itemsInCart = addItems.stream()
-                .collect(Collectors.toMap(AddItemRequest::tcin, AddItemRequest::quantity));
+                .collect(Collectors.toMap(AddItemRequest::itemId, AddItemRequest::quantity));
 
         String cartId = cartService.createCart(itemsInCart);
 
@@ -83,12 +83,12 @@ public class CartController {
             @ApiResponse(responseCode = "404", description = "Cart not found",
                     content = @Content)
     })
-    @DeleteMapping("/carts/{id}/items/{tcin}")
-    public ResponseEntity<CartResponse> removeItemFromCart(@PathVariable String id, @PathVariable String tcin) {
+    @DeleteMapping("/carts/{id}/items/{itemId}")
+    public ResponseEntity<CartResponse> removeItemFromCart(@PathVariable String id, @PathVariable String itemId) {
         if(cartService.getCart(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        cartService.removeItem(id, tcin);
+        cartService.removeItem(id, itemId);
         if (cartService.getCart(id).isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {
@@ -109,7 +109,7 @@ public class CartController {
         if(cartService.getCart(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        cartService.addItem(id, addItemRequest.tcin(), addItemRequest.quantity());
+        cartService.addItem(id, addItemRequest.itemId(), addItemRequest.quantity());
         return getCart(id);
     }
 
@@ -121,16 +121,16 @@ public class CartController {
             @ApiResponse(responseCode = "404", description = "Cart or item not found",
                     content = @Content)
     })
-    @PatchMapping("/carts/{id}/items/{tcin}")
-    public ResponseEntity<CartResponse> updateItem(@PathVariable String id, @PathVariable String tcin, @RequestBody UpdateItemRequest updateItemRequest) {
+    @PatchMapping("/carts/{id}/items/{itemId}")
+    public ResponseEntity<CartResponse> updateItem(@PathVariable String id, @PathVariable String itemId, @RequestBody UpdateItemRequest updateItemRequest) {
 
         Optional<CartLineItem> cartLineItem = cartService.getCart(id)
-                .flatMap( it -> it.findByTcin(tcin));
+                .flatMap(it -> it.findByItemId(itemId));
         if(cartLineItem.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        cartService.updateCartItem(id, tcin, updateItemRequest.quantity());
+        cartService.updateCartItem(id, itemId, updateItemRequest.quantity());
         return getCart(id);
 
     }

@@ -146,7 +146,7 @@ public class CartControllerTest {
     public void testUpdateCartItem() {
         // Mock data
         String cartId = "cart123";
-        String tcin = "item1";
+        String itemId = "item1";
         int newQuantity = 5;
         Cart mockCart = new Cart(
                 cartId,
@@ -160,7 +160,7 @@ public class CartControllerTest {
         when(behaviors.getConfiguredBehavior()).thenReturn(createInducedBehavior());
 
         // Execute the method
-        ResponseEntity<CartResponse> response = cartController.updateItem(cartId, tcin, new UpdateItemRequest(newQuantity));
+        ResponseEntity<CartResponse> response = cartController.updateItem(cartId, itemId, new UpdateItemRequest(newQuantity));
 
         // Verify the response
         assertEquals(ResponseEntity.ok(CartResponse.from(mockCart)), response);
@@ -170,7 +170,7 @@ public class CartControllerTest {
     public void testUpdateCartItemWhenCartDoesNotExist() {
         // Mock data
         String cartId = "cart123";
-        String tcin = "item1";
+        String itemId = "item1";
         int newQuantity = 5;
 
         // Mock behavior
@@ -178,17 +178,17 @@ public class CartControllerTest {
         when(behaviors.getConfiguredBehavior()).thenReturn(createInducedBehavior());
 
         // Execute the method
-        ResponseEntity<CartResponse> response = cartController.updateItem(cartId, tcin, new UpdateItemRequest(newQuantity));
+        ResponseEntity<CartResponse> response = cartController.updateItem(cartId, itemId, new UpdateItemRequest(newQuantity));
 
         // Verify the response
         assertEquals(ResponseEntity.notFound().build(), response);
     }
 
     @Test
-    public void testUpdateCartItemWhenTcinNotFoundInCart() {
+    public void testUpdateCartItemWhenItemIdNotFoundInCart() {
         // Mock data
         String cartId = "cart123";
-        String tcin = "missingItemId";
+        String itemId = "missingItemId";
         int newQuantity = 5;
         Cart mockCart = new Cart(
                 cartId,
@@ -202,7 +202,7 @@ public class CartControllerTest {
         when(behaviors.getConfiguredBehavior()).thenReturn(createInducedBehavior());
 
         // Execute the method
-        ResponseEntity<CartResponse> response = cartController.updateItem(cartId, tcin, new UpdateItemRequest(newQuantity));
+        ResponseEntity<CartResponse> response = cartController.updateItem(cartId, itemId, new UpdateItemRequest(newQuantity));
 
         // Verify the response
         assertEquals(ResponseEntity.notFound().build(), response);
@@ -240,7 +240,7 @@ public class CartControllerTest {
         // Mock data
         List<AddItemRequest> addItems = List.of(
                 new AddItemRequest("item1", 2),
-                new AddItemRequest("item1", 3) // Duplicate tcin
+                new AddItemRequest("item1", 3) // Duplicate item ID
         );
 
         // Execute the method

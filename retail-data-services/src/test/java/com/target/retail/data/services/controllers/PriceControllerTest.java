@@ -52,7 +52,7 @@ class PriceControllerTest {
 
         ResponseEntity<PriceResponse> response = priceController.getPrice(productId);
 
-        assertEquals(productId, Objects.requireNonNull(response.getBody()).productId(), "Product ID does not match.");
+        assertEquals(productId, Objects.requireNonNull(response.getBody()).itemId(), "Product ID does not match.");
 
         PriceResponse responseBody = response.getBody();
         assertNotNull(responseBody);

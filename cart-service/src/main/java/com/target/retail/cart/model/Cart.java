@@ -24,7 +24,7 @@ public record Cart(String id, BigDecimal totalTax, BigDecimal deliveryCharges, L
         return cartLineItems().stream().map(CartLineItem::updatedOn).max(ZonedDateTime::compareTo).orElse(ZonedDateTime.now());
     }
 
-    public Optional<CartLineItem> findByTcin(String tcin) {
-        return cartLineItems.stream().filter(it -> it.item().tcin().equals(tcin)).findFirst();
+    public Optional<CartLineItem> findByItemId(String itemId) {
+        return cartLineItems.stream().filter(it -> it.item().itemId().equals(itemId)).findFirst();
     }
 }

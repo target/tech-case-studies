@@ -43,7 +43,7 @@ public class CartResponseTest {
         assertEquals(cart.cartLineItems().size(), cartResponse.items().size());
         CartLineItem cartLineItem = cart.cartLineItems().get(0);
         CartResponse.ItemResponse itemResponse = cartResponse.items().get(0);
-        assertEquals(cartLineItem.item().tcin(), itemResponse.tcin());
+        assertEquals(cartLineItem.item().itemId(), itemResponse.itemId());
         assertEquals(cartLineItem.item().title(), itemResponse.title());
         assertEquals(cartLineItem.item().description(), itemResponse.description());
         assertEquals(cartLineItem.item().brand(), itemResponse.brand());

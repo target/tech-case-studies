@@ -14,9 +14,9 @@ public class ItemApiClient {
         this.restClient = RestClient.builder().baseUrl(baseUrl).build();
     }
 
-    public ItemApiResponse getItem(String tcin) {
+    public ItemApiResponse getItem(String itemId) {
         return restClient.get()
-                .uri("/items/{item_id}", tcin)
+                .uri("/items/{itemId}", itemId)
                 .retrieve()
                 .body(ItemApiResponse.class);
     }

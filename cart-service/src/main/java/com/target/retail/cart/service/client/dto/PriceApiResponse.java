@@ -6,4 +6,4 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import java.math.BigDecimal;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record PriceApiResponse(String productId, BigDecimal regular, BigDecimal sale, String priceType) {}
+public record PriceApiResponse(String itemId, BigDecimal regular, BigDecimal sale, String priceType) {}

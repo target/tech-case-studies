@@ -21,14 +21,14 @@ public class CartDatabaseTest {
     private static final String cartsDataPath = "./carts-test/";
 
     private static final String testDataForCart1 = """
-   lineId,cartId,tcin,quantity,createdOn,updatedOn
+   lineId,cartId,itemId,quantity,createdOn,updatedOn
    10001,cart-1,987612,10,2025-03-10T00:14:45.73Z,2025-03-16T00:15:45.73Z
    10002,cart-1,789123,12,2025-03-11T00:11:45.73Z,2025-03-14T00:15:45.73Z
    10003,cart-1,456788,1,2025-03-09T00:15:45.73Z,2025-03-15T00:15:45.73Z
    """ ;
 
     private static final String testDataForCart2 = """
-   lineId,cartId,tcin,quantity,createdOn,updatedOn
+   lineId,cartId,itemId,quantity,createdOn,updatedOn
    10004,cart-2,987612,1,2025-03-16T00:14:45.73Z,2025-03-16T00:15:45.73Z
    10005,cart-2,789123,2,2025-03-14T00:11:45.73Z,2025-03-14T00:15:45.73Z
    10006,cart-2,456788,3,2025-03-13T00:15:45.73Z,2025-03-15T00:15:45.73Z

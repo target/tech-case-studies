@@ -9,9 +9,9 @@ import com.target.retail.cart.data.Identifiable;
 import java.time.ZonedDateTime;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@JsonPropertyOrder({ "lineId", "cartId", "tcin", "quantity", "createdOn", "updatedOn" })
+@JsonPropertyOrder({ "lineId", "cartId", "itemId", "quantity", "createdOn", "updatedOn" })
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record StoredCartLine(String lineId, String cartId, String tcin, Integer quantity, ZonedDateTime createdOn, ZonedDateTime updatedOn) implements Identifiable {
+public record StoredCartLine(String lineId, String cartId, String itemId, Integer quantity, ZonedDateTime createdOn, ZonedDateTime updatedOn) implements Identifiable {
     public String getId() {
         return lineId();
     }

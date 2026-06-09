@@ -11,7 +11,7 @@ public class AvailabilityIntegrationTest extends BaseIntegrationTest {
     public void testGetAvailability() throws Exception {
         getResponse("/availability/" + testProductId)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.product_id").value(equalTo(testProductId)));
+                .andExpect(jsonPath("$.item_id").value(equalTo(testProductId)));
     }
 
     @Test

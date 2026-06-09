@@ -41,7 +41,7 @@ public record CartResponse(String id, List<ItemResponse> items, BigDecimal subto
     }
 
 
-    public record ItemResponse(String tcin, String title, String description, String brand, String merchClass, Integer quantity, PriceResponse price, ImageResponse imageData) {
+    public record ItemResponse(String itemId, String title, String description, String brand, String merchClass, Integer quantity, PriceResponse price, ImageResponse imageData) {
 
         public record PriceResponse(BigDecimal regular, BigDecimal sale) {}
 
@@ -50,7 +50,7 @@ public record CartResponse(String id, List<ItemResponse> items, BigDecimal subto
 
     public static CartResponse from(Cart cart) {
 
-        List<ItemResponse> items = cart.cartLineItems().stream().map(it -> new ItemResponse(it.item().tcin(),
+        List<ItemResponse> items = cart.cartLineItems().stream().map(it -> new ItemResponse(it.item().itemId(),
                 it.item().title(), it.item().description(), it.item().brand(), it.item().merchClass(),
                 it.quantity(), new ItemResponse.PriceResponse(it.price().regular(), it.price().sale().orElse(null)),                 new ItemResponse.ImageResponse(it.item().primary(), it.item().alternate(), it.item().baseUrl()))).toList();
 

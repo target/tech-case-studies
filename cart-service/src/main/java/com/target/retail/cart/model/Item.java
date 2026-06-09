@@ -1,7 +1,7 @@
 package com.target.retail.cart.model;
 
 public record Item(
-        String tcin,
+        String itemId,
         String title,
         String description,
         String brand,

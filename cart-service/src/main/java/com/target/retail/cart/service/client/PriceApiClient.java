@@ -14,9 +14,9 @@ public class PriceApiClient {
         this.restClient = RestClient.builder().baseUrl(baseUrl).build();
     }
 
-    public PriceApiResponse getPricing(String tcin) {
+    public PriceApiResponse getPricing(String itemId) {
         return restClient.get()
-                .uri("/prices/{item_id}", tcin)
+                .uri("/prices/{itemId}", itemId)
                 .retrieve()
                 .body(PriceApiResponse.class);
     }

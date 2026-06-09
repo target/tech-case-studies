@@ -82,21 +82,21 @@ public class CartService{
 
     }
 
-    public void removeItem(String cartId, String tcin) {
+    public void removeItem(String cartId, String itemId) {
         Optional<Cart> cart = getCart(cartId);
         if (cart.isEmpty()) {
             throw new RuntimeException("No cart found with id " + cartId);
         }
 
         List<CartLineItem> updatedItems = cart.get().cartLineItems().stream()
-                .filter(it -> !it.item().tcin().equals(tcin))
+                .filter(it -> !it.item().itemId().equals(itemId))
                 .collect(Collectors.toList());
 
         List<StoredCartLine> storedCartLines = updatedItems.stream()
                 .map(it ->
                         new StoredCartLine(it.lineItemId(),
                                 cart.get().id(),
-                                it.item().tcin(),
+                                it.item().itemId(),
                                 it.quantity(),
                                 it.createdOn(),
                                 it.updatedOn()))
@@ -104,41 +104,41 @@ public class CartService{
         cartDatabase.updateCart(cartId, storedCartLines);
     }
 
-    public void addItem(String cartId, String tcin, Integer quantity) {
+    public void addItem(String cartId, String itemId, Integer quantity) {
         List<StoredCartLine> storedCartLines = new ArrayList<>(cartDatabase.getCart(cartId));
         if (storedCartLines.isEmpty()) {
             throw new RuntimeException("No cart found with id " + cartId);
         }
 
-        Optional<StoredCartLine> storedCartLineForTcin = storedCartLines.stream().filter( it -> it.tcin().equals(tcin)).findFirst();
+        Optional<StoredCartLine> storedCartLineForItemId = storedCartLines.stream().filter(it -> it.itemId().equals(itemId)).findFirst();
         Integer quantityForNewStoredLine = quantity;
-        if(storedCartLineForTcin.isPresent()) {
-            quantityForNewStoredLine += storedCartLineForTcin.get().quantity() ;
-            storedCartLines.remove(storedCartLineForTcin.get());
+        if(storedCartLineForItemId.isPresent()) {
+            quantityForNewStoredLine += storedCartLineForItemId.get().quantity();
+            storedCartLines.remove(storedCartLineForItemId.get());
         }
 
         StoredCartLine storedCartLine =
-                new StoredCartLine(storedCartLineForTcin.map(StoredCartLine::lineId).orElseGet(() -> cartId + "-" + tcin),
-                        cartId, tcin, quantityForNewStoredLine, ZonedDateTime.now(), ZonedDateTime.now());
+                new StoredCartLine(storedCartLineForItemId.map(StoredCartLine::lineId).orElseGet(() -> cartId + "-" + itemId),
+                        cartId, itemId, quantityForNewStoredLine, ZonedDateTime.now(), ZonedDateTime.now());
         storedCartLines.add(storedCartLine);
         cartDatabase.updateCart(cartId, storedCartLines);
 
     }
 
-    public void updateCartItem(String cartId, String tcin, Integer quantity) {
+    public void updateCartItem(String cartId, String itemId, Integer quantity) {
         List<StoredCartLine> storedCartLines = new ArrayList<>(cartDatabase.getCart(cartId));
-        Optional<StoredCartLine> storedCartLineForTcin = storedCartLines.stream().filter( it -> it.tcin().equals(tcin)).findFirst();
-        if(storedCartLineForTcin.isPresent()) {
-            storedCartLines.remove(storedCartLineForTcin.get());
+        Optional<StoredCartLine> storedCartLineForItemId = storedCartLines.stream().filter(it -> it.itemId().equals(itemId)).findFirst();
+        if(storedCartLineForItemId.isPresent()) {
+            storedCartLines.remove(storedCartLineForItemId.get());
             if(quantity > 0) {
                 StoredCartLine storedCartLine =
-                        new StoredCartLine(storedCartLineForTcin.get().lineId(),
-                                cartId, tcin, quantity, ZonedDateTime.now(), ZonedDateTime.now());
+                        new StoredCartLine(storedCartLineForItemId.get().lineId(),
+                                cartId, itemId, quantity, ZonedDateTime.now(), ZonedDateTime.now());
                 storedCartLines.add(storedCartLine);
             }
             cartDatabase.updateCart(cartId, storedCartLines);
         } else {
-            throw new RuntimeException("No cart line found for tcin "+tcin);
+            throw new RuntimeException("No cart line found for item id " + itemId);
         }
 
     }
@@ -148,27 +148,27 @@ public class CartService{
         return deliveryChargeCalculator.calculateDeliveryCharges(itemMap);
     }
     private CartLineItem assembleCartLineItem(StoredCartLine scl) {
-        Item item = getItem(scl.tcin());
-        Price price = getPriceForItem(scl.tcin());
+        Item item = getItem(scl.itemId());
+        Price price = getPriceForItem(scl.itemId());
         
         return new CartLineItem(scl.lineId(), item, scl.quantity(), price, scl.createdOn(), scl.updatedOn());
     }
 
 
 
-    private Price getPriceForItem(String tcin) {
-        PriceApiResponse priceResponse = priceApiClient.getPricing(tcin);
+    private Price getPriceForItem(String itemId) {
+        PriceApiResponse priceResponse = priceApiClient.getPricing(itemId);
 
         if(priceResponse.priceType().equals("SALE")) {
-            return new Price(tcin, priceResponse.regular(), Optional.of(priceResponse.sale()));
+            return new Price(itemId, priceResponse.regular(), Optional.of(priceResponse.sale()));
         } else {
-            return new Price(tcin, priceResponse.regular(), Optional.empty());
+            return new Price(itemId, priceResponse.regular(), Optional.empty());
         }
 
     }
 
-    private Item getItem(String tcin) {
-        ItemApiResponse itemApiResponse = itemApiClient.getItem(tcin);
+    private Item getItem(String itemId) {
+        ItemApiResponse itemApiResponse = itemApiClient.getItem(itemId);
 
         return new Item(itemApiResponse.itemId(),
                 itemApiResponse.smallDescription(),
