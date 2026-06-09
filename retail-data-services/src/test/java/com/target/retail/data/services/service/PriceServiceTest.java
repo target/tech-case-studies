@@ -47,7 +47,7 @@ item_id,price,type
         Optional<ItemPrice> itemPrice = priceService.getPrice(productId);
 
         assertEquals(expectedResponse.productId(), itemPrice.get().itemId(), "Product ID does not match.");
-        assertEquals(expectedResponse.regularPrice(), itemPrice.get().regularPrice(), "Price does not match.");
+        assertEquals(expectedResponse.regular(), itemPrice.get().regularPrice(), "Price does not match.");
         assertEquals(expectedResponse.priceType(), itemPrice.get().type(), "Price type does not match.");
     }
 

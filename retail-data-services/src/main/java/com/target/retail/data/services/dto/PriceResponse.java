@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 
-public record PriceResponse(String productId, BigDecimal regularPrice, BigDecimal salePrice, String priceType) {
+public record PriceResponse(String productId, BigDecimal regular, BigDecimal sale, String priceType) {
     public PriceResponse(ItemPrice itemPrice) {
         this(itemPrice.itemId(), itemPrice.regularPrice(), itemPrice.salePrice(), itemPrice.type());
     }

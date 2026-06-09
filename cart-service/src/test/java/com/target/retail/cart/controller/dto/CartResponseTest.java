@@ -49,8 +49,8 @@ public class CartResponseTest {
         assertEquals(cartLineItem.item().brand(), itemResponse.brand());
         assertEquals(cartLineItem.item().merchClass(), itemResponse.merchClass());
         assertEquals(cartLineItem.quantity(), itemResponse.quantity());
-        assertEquals(cartLineItem.price().regularPrice(), itemResponse.price().regular());
-        assertEquals(cartLineItem.price().salePrice().orElse(null), itemResponse.price().sale());
+        assertEquals(cartLineItem.price().regular(), itemResponse.price().regular());
+        assertEquals(cartLineItem.price().sale().orElse(null), itemResponse.price().sale());
         assertEquals(cartLineItem.item().primary(), itemResponse.imageData().primary());
         assertEquals(cartLineItem.item().alternate(), itemResponse.imageData().alternate());
         assertEquals(cartLineItem.item().baseUrl(), itemResponse.imageData().baseUrl());

@@ -8,7 +8,7 @@ import com.target.retail.data.services.data.Identifiable;
 
 import java.math.BigDecimal;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@JsonPropertyOrder({ "itemId", "regular_price", "sale_price", "type" })
+@JsonPropertyOrder({ "itemId", "regularPrice", "salePrice", "type" })
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ItemPrice(String itemId, BigDecimal regularPrice, BigDecimal salePrice, String type) implements Identifiable {
 

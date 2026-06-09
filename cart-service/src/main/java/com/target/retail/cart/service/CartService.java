@@ -160,9 +160,9 @@ public class CartService{
         PriceApiResponse priceResponse = priceApiClient.getPricing(tcin);
 
         if(priceResponse.priceType().equals("SALE")) {
-            return new Price(tcin, priceResponse.regularPrice(), Optional.of(priceResponse.salePrice()));
+            return new Price(tcin, priceResponse.regular(), Optional.of(priceResponse.sale()));
         } else {
-            return new Price(tcin, priceResponse.regularPrice(), Optional.empty());
+            return new Price(tcin, priceResponse.regular(), Optional.empty());
         }
 
     }

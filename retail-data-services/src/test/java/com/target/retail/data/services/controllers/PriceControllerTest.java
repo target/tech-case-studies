@@ -57,7 +57,7 @@ class PriceControllerTest {
         PriceResponse responseBody = response.getBody();
         assertNotNull(responseBody);
 
-        assertEquals(BigDecimal.valueOf(19.99), responseBody.regularPrice(), "Price does not match.");
+        assertEquals(BigDecimal.valueOf(19.99), responseBody.regular(), "Price does not match.");
         assertEquals("REGULAR", responseBody.priceType(), "Price type does not match.");
     }
 
