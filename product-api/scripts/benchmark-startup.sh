@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ============================================================================
-# Retail Data Services - Docker Startup Time Benchmark Script
+# Product API - Docker Startup Time Benchmark Script
 # ============================================================================
 # Measures Docker container startup time by building the image locally and
 # running multiple test iterations.
@@ -16,9 +16,9 @@
 set -e
 
 # Configuration
-IMAGE_NAME="retail-data-services:benchmark"
-CONTAINER_PREFIX="retail-benchmark"
-HEALTH_ENDPOINT="http://localhost:8080/retail_data_services/v1/health"
+IMAGE_NAME="product-api:benchmark"
+CONTAINER_PREFIX="product-api-benchmark"
+HEALTH_ENDPOINT="http://localhost:8080/v1/health"
 DEFAULT_ITERATIONS=3
 HEALTH_TIMEOUT=60
 WAIT_BETWEEN_ITERATIONS=2
@@ -75,7 +75,7 @@ cleanup_container() {
 
 check_port_available() {
     local port=$1
-    if lsof -Pi :$port -sTCP:LISTEN -t >/dev/null 2>&1 ; then
+    if lsof -Pi :"$port" -sTCP:LISTEN -t >/dev/null 2>&1 ; then
         return 1
     else
         return 0
@@ -88,7 +88,7 @@ calculate_stats() {
     eval "local -a arr=(\"\${${array_name}[@]}\")"
     local count=${#arr[@]}
     
-    if [ $count -eq 0 ]; then
+    if [ "$count" -eq 0 ]; then
         echo "N/A"
         return
     fi
@@ -128,11 +128,11 @@ calculate_stats() {
 # Main Benchmark Logic
 # ============================================================================
 
-print_header "Retail Data Services Startup Benchmark"
+print_header "Product API Startup Benchmark"
 
 # Check if JAR exists
-if [ ! -f "build/libs/retail-data-services.jar" ]; then
-    print_error "JAR file not found: build/libs/retail-data-services.jar"
+if [ ! -f "build/libs/product-api.jar" ]; then
+    print_error "JAR file not found: build/libs/product-api.jar"
     print_info "Please run: ./gradlew clean build"
     exit 1
 fi
@@ -146,7 +146,7 @@ if ! check_port_available $PORT; then
         print_error "Both ports 8080 and 8081 are in use. Please free up a port."
         exit 1
     fi
-    HEALTH_ENDPOINT="http://localhost:8081/retail_data_services/v1/health"
+    HEALTH_ENDPOINT="http://localhost:8081/v1/health"
 fi
 
 print_info "Using port: $PORT"
@@ -172,7 +172,7 @@ print_info "Running $ITERATIONS benchmark iterations..."
 echo ""
 
 # Run benchmark iterations
-for i in $(seq 1 $ITERATIONS); do
+for i in $(seq 1 "$ITERATIONS"); do
     echo "----------------------------------------"
     echo "Iteration $i/$ITERATIONS"
     echo "----------------------------------------"
@@ -250,7 +250,7 @@ for i in $(seq 1 $ITERATIONS); do
     cleanup_container "$container_name"
     
     # Wait between iterations
-    if [ $i -lt $ITERATIONS ]; then
+    if [ "$i" -lt "$ITERATIONS" ]; then
         sleep $WAIT_BETWEEN_ITERATIONS
     fi
     
@@ -282,7 +282,7 @@ results_file="${script_dir}/benchmark-results-${timestamp}.txt"
 
 {
     echo "==========================================="
-    echo "Retail Data Services Startup Benchmark"
+    echo "Product API Startup Benchmark"
     echo "Timestamp: $(date)"
     echo "==========================================="
     echo ""

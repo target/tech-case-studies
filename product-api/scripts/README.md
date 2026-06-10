@@ -2,7 +2,7 @@
 
 ## benchmark-startup.sh
 
-Measures Docker container startup time for retail-data-services.
+Measures Docker container startup time for product-api.
 
 ### Usage
 

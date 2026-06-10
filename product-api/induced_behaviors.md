@@ -24,7 +24,7 @@ If `DEFAULT_BEHAVIOR` is set to anything else, the service will fail when it tri
 
 Assumptions in the examples:
 
-- Container image name: `retail-data-services`
+- Container image name: `product-api`
 - Container port: `8080` (mapped to different host ports as needed)
 
 ## NORMAL behavior
@@ -43,7 +43,6 @@ Conceptually, controllers/services call into a function that builds the API resp
 
 - You can omit `DEFAULT_BEHAVIOR` entirely (it defaults to `NORMAL`), or
 - Set it explicitly:
-
   - `DEFAULT_BEHAVIOR=NORMAL`
 
 There are no additional tuning environment variables for this behavior.
@@ -55,7 +54,7 @@ Implicit default (no env var):
 ```bash
 docker run --rm \
   -p 8080:8080 \
-  retail-data-services
+  product-api
 ```
 
 Explicitly set `NORMAL`:
@@ -64,7 +63,7 @@ Explicitly set `NORMAL`:
 docker run --rm \
   -p 8080:8080 \
   -e DEFAULT_BEHAVIOR=NORMAL \
-  retail-data-services
+  product-api
 ```
 
 **Run with `docker-compose`**
@@ -73,8 +72,8 @@ Example service definition:
 
 ```yaml
 services:
-  retail-data-services-normal:
-    image: retail-data-services
+  product-api-normal:
+    image: product-api
     ports:
       - "8080:8080"
     environment:
@@ -129,16 +128,16 @@ Tune how slow API responses are:
 
 **Run with `docker run`**
 
-Use default delay settings (around 1–10 seconds before each API response is generated):
+Use default delay settings (around 1 to 10 seconds before each API response is generated):
 
 ```bash
 docker run --rm \
   -p 8080:8080 \
   -e DEFAULT_BEHAVIOR=SLOW_RESPONSE \
-  retail-data-services
+  product-api
 ```
 
-Override delays for a milder slowdown (roughly 0.5–2 seconds added before generating each response):
+Override delays for a milder slowdown (roughly 0.5 to 2 seconds added before generating each response):
 
 ```bash
 docker run --rm \
@@ -146,10 +145,10 @@ docker run --rm \
   -e DEFAULT_BEHAVIOR=SLOW_RESPONSE \
   -e BEHAVIORS_SLOW_RESPONSE_MIN_DELAY_MS=500 \
   -e BEHAVIORS_SLOW_RESPONSE_MAX_DELAY_MS=2000 \
-  retail-data-services
+  product-api
 ```
 
-Override for a heavier slowdown (roughly 3–8 seconds before generating each response):
+Override for a heavier slowdown (roughly 3 to 8 seconds before generating each response):
 
 ```bash
 docker run --rm \
@@ -157,7 +156,7 @@ docker run --rm \
   -e DEFAULT_BEHAVIOR=SLOW_RESPONSE \
   -e BEHAVIORS_SLOW_RESPONSE_MIN_DELAY_MS=3000 \
   -e BEHAVIORS_SLOW_RESPONSE_MAX_DELAY_MS=8000 \
-  retail-data-services
+  product-api
 ```
 
 **Run with `docker-compose`**
@@ -166,8 +165,8 @@ Mild slowdown example (host port 8081):
 
 ```yaml
 services:
-  retail-data-services-slow:
-    image: retail-data-services
+  product-api-slow:
+    image: product-api
     ports:
       - "8081:8080"
     environment:
@@ -180,8 +179,8 @@ Heavier slowdown variant:
 
 ```yaml
 services:
-  retail-data-services-slow-heavy:
-    image: retail-data-services
+  product-api-slow-heavy:
+    image: product-api
     ports:
       - "8083:8080"
     environment:
@@ -206,10 +205,10 @@ services:
 - For each wrapped API call, this behavior:
   1. Draws a random number between 0.0 and 1.0.
   2. Compares it to a configured failure rate.
-  3. If the random number is less than the failure rate, it throws an exception instead of generating the API response.
+  3. If the random number is less than the failure rate, it throws an `InducedFailureException` instead of generating the API response.
   4. Otherwise, it runs the normal logic that builds the API response and returns that response.
 
-This causes a configurable fraction of requests to fail before a response is generated, usually surfacing as HTTP 5xx errors (depending on the global exception handling) instead of the normal API payload.
+This causes a configurable fraction of requests to fail before a response is generated. The `GlobalExceptionHandler` maps the resulting `InducedFailureException` to HTTP 503 Service Unavailable instead of returning the normal API payload.
 
 ### Configuration and Docker usage
 
@@ -234,7 +233,7 @@ Use the default failure rate (~5% of API responses fail):
 docker run --rm \
   -p 8080:8080 \
   -e DEFAULT_BEHAVIOR=RANDOM_FAILURES \
-  retail-data-services
+  product-api
 ```
 
 Increase the failure rate to about 25% of API calls:
@@ -244,7 +243,7 @@ docker run --rm \
   -p 8080:8080 \
   -e DEFAULT_BEHAVIOR=RANDOM_FAILURES \
   -e BEHAVIORS_RANDOM_FAILING_FAILURE_RATE=0.25 \
-  retail-data-services
+  product-api
 ```
 
 Use a very aggressive 50% failure rate (half of the API calls fail):
@@ -254,17 +253,17 @@ docker run --rm \
   -p 8080:8080 \
   -e DEFAULT_BEHAVIOR=RANDOM_FAILURES \
   -e BEHAVIORS_RANDOM_FAILING_FAILURE_RATE=0.5 \
-  retail-data-services
+  product-api
 ```
 
 **Run with `docker-compose`**
 
-Light flakiness (~10–20% of API calls) on host port 8082:
+Light flakiness (~10 to 20% of API calls) on host port 8082:
 
 ```yaml
 services:
-  retail-data-services-flaky:
-    image: retail-data-services
+  product-api-flaky:
+    image: product-api
     ports:
       - "8082:8080"
     environment:
@@ -276,8 +275,8 @@ More aggressive flakiness (~50% of API calls):
 
 ```yaml
 services:
-  retail-data-services-flaky-heavy:
-    image: retail-data-services
+  product-api-flaky-heavy:
+    image: product-api
     ports:
       - "8084:8080"
     environment:
@@ -302,32 +301,33 @@ services:
   - Wait, then generate and return the response (SLOW_RESPONSE), or
   - Fail early without generating a response at all (RANDOM_FAILURES).
 
-By setting only environment variables when you start the container, you can run the same API code in any of these modes. Endpoints that don’t use the behavior wrapper will continue to generate responses normally.
+By setting only environment variables when you start the container, you can run the same API code in any of these modes. Endpoints that don't use the behavior wrapper will continue to generate responses normally.
 
 ## Use cases and tips
 
-- **UI latency testing**  
+- **UI latency testing**
   Point your UI or client at a `SLOW_RESPONSE` instance to observe loading indicators, spinners, and timeouts when API responses are delayed.
 
-- **Resilience and retry testing**  
-  Use a `RANDOM_FAILURES` instance with a moderate failure rate (e.g., 0.1–0.3) to exercise retries, backoff strategies, and error handling when API responses sometimes fail outright.
+- **Resilience and retry testing**
+  Use a `RANDOM_FAILURES` instance with a moderate failure rate (e.g., 0.1 to 0.3) to exercise retries, backoff strategies, and error handling when API responses sometimes fail outright.
 
-- **Baseline vs. stressed comparison**  
+- **Baseline vs. stressed comparison**
   Run `NORMAL` and one induced-behavior instance in parallel (on different ports) to compare metrics, logs, and user experience between normal and stressed API behavior.
 
-- **Safety tips**  
-  - Very high failure rates or very long delays can make the API appear "down." Start with conservative values and ramp up.  
+- **Safety tips**
+  - Very high failure rates or very long delays can make the API appear "down." Start with conservative values and ramp up.
   - The chosen `DEFAULT_BEHAVIOR` applies process-wide. To run different modes simultaneously, start multiple containers with different environment settings.
 
 ## References
 
 For deeper technical details, see:
 
-- `src/main/java/com/target/retail/data/services/service/behavior/InducedBehavior.java`  
+- `src/main/java/com/target/retail/product/service/behavior/InducedBehavior.java`
   Functional interface that wraps a `Supplier<T>` representing the API-response generation logic and lets behaviors inject cross-cutting effects.
 
-- `src/main/java/com/target/retail/data/services/service/behavior/BehaviorType.java`  
+- `src/main/java/com/target/retail/product/service/behavior/BehaviorType.java`
   Enum declaring the supported behavior types (`NORMAL`, `SLOW_RESPONSE`, `RANDOM_FAILURES`).
 
-- `src/main/java/com/target/retail/data/services/service/behavior/Behaviors.java`  
+- `src/main/java/com/target/retail/product/service/behavior/Behaviors.java`
   Component that reads configuration from environment variables (including `DEFAULT_BEHAVIOR`, failure rate, and delay bounds), wires behavior lambdas into a map, and exposes the configured behavior used to wrap API-response generation.
+
