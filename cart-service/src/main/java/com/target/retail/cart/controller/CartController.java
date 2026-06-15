@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/carts/v1")
 public class CartController {
 
     private CartService cartService;

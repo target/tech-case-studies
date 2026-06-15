@@ -27,8 +27,8 @@ docker compose up
 
 The services will be available at:
 
-- product-api: <http://localhost:8080/v1/>
-- cart-service: <http://localhost:8081/v1/>
+- product-api: <http://localhost:8080/products/v1/>
+- cart-service: <http://localhost:8081/carts/v1/>
 
 To stop the services:
 
@@ -59,8 +59,8 @@ Both services expose Swagger UI and OpenAPI docs:
 
 | Service      | Swagger UI                                    | API docs                         |
 | ------------ | --------------------------------------------- | -------------------------------- |
-| product-api  | <http://localhost:8080/swagger-ui/index.html> | <http://localhost:8080/api-docs> |
-| cart-service | <http://localhost:8081/swagger-ui/index.html> | <http://localhost:8081/api-docs> |
+| product-api  | <http://localhost:8080/swagger-ui/index.html> | <http://localhost:8080/v3/api-docs> |
+| cart-service | <http://localhost:8081/swagger-ui/index.html> | <http://localhost:8081/v3/api-docs> |
 
 HTTP request files for use with IntelliJ or VS Code are available at:
 
@@ -71,37 +71,37 @@ HTTP request files for use with IntelliJ or VS Code are available at:
 
 ### Get price
 
-**`GET /v1/prices/{id}`**
+**`GET /products/v1/prices/{id}`**
 
 ```sh
-curl -X GET "http://localhost:8080/v1/prices/123456"
+curl -X GET "http://localhost:8080/products/v1/prices/123456"
 ```
 
 ### Get item
 
-**`GET /v1/items/{id}`**
+**`GET /products/v1/items/{id}`**
 
 ```sh
-curl -X GET "http://localhost:8080/v1/items/123456"
+curl -X GET "http://localhost:8080/products/v1/items/123456"
 ```
 
 ### List items
 
-**`GET /v1/items`**
+**`GET /products/v1/items`**
 
 Supports filtering by `small_description` query parameter.
 
 ```sh
-curl -X GET "http://localhost:8080/v1/items"
-curl -X GET "http://localhost:8080/v1/items?small_description=jersey"
+curl -X GET "http://localhost:8080/products/v1/items"
+curl -X GET "http://localhost:8080/products/v1/items?small_description=jersey"
 ```
 
 ### Get availability
 
-**`GET /v1/availability/{id}`**
+**`GET /products/v1/availability/{id}`**
 
 ```sh
-curl -X GET "http://localhost:8080/v1/availability/123456"
+curl -X GET "http://localhost:8080/products/v1/availability/123456"
 ```
 
 ## cart-service endpoints
@@ -110,20 +110,20 @@ cart-service depends on product-api at runtime. When a cart is read, the service
 
 ### Get cart
 
-**`GET /v1/carts/{id}`**
+**`GET /carts/v1/carts/{id}`**
 
 ```sh
-curl 'http://localhost:8081/v1/carts/100' -i -X GET
+curl 'http://localhost:8081/carts/v1/carts/100' -i -X GET
 ```
 
 ### Create cart
 
-**`POST /v1/carts`**
+**`POST /carts/v1/carts`**
 
 Request body: array of objects with `item_id` (string) and `quantity` (integer).
 
 ```sh
-curl 'http://localhost:8081/v1/carts' -i -X POST \
+curl 'http://localhost:8081/carts/v1/carts' -i -X POST \
   -H 'Content-Type: application/json' \
   -d '[
     {"item_id" : "123456", "quantity": 1},
@@ -133,32 +133,32 @@ curl 'http://localhost:8081/v1/carts' -i -X POST \
 
 ### Add item to cart
 
-**`POST /v1/carts/{id}/items`**
+**`POST /carts/v1/carts/{id}/items`**
 
 ```sh
-curl 'http://localhost:8081/v1/carts/100/items' -i -X POST \
+curl 'http://localhost:8081/carts/v1/carts/100/items' -i -X POST \
   -H 'Content-Type: application/json' \
   -d '{"item_id" : "456788", "quantity": 2}'
 ```
 
 ### Update item quantity
 
-**`PATCH /v1/carts/{id}/items/{item_id}`**
+**`PATCH /carts/v1/carts/{id}/items/{item_id}`**
 
 ```sh
-curl 'http://localhost:8081/v1/carts/100/items/456788' -i -X PATCH \
+curl 'http://localhost:8081/carts/v1/carts/100/items/456788' -i -X PATCH \
   -H 'Content-Type: application/json' \
   -d '{"quantity": 3}'
 ```
 
 ### Remove item from cart
 
-**`DELETE /v1/carts/{id}/items/{item_id}`**
+**`DELETE /carts/v1/carts/{id}/items/{item_id}`**
 
 Removing the last item from a cart also removes the cart.
 
 ```sh
-curl 'http://localhost:8081/v1/carts/100/items/456788' -i -X DELETE
+curl 'http://localhost:8081/carts/v1/carts/100/items/456788' -i -X DELETE
 ```
 
 ## Customizing data

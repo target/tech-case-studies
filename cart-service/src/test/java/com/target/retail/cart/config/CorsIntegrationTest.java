@@ -19,7 +19,7 @@ class CorsIntegrationTest {
 
     @Test
     void shouldReturnCorsHeadersForPreflightRequest() throws Exception {
-        mockMvc.perform(options("/cart/v1/carts")
+        mockMvc.perform(options("/carts/v1/carts")
                         .header(HttpHeaders.ORIGIN, "http://localhost:5173")
                         .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "GET"))
                 .andExpect(status().isOk())

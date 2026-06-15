@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/products/v1")
 public class PriceController {
 
     private final PriceService priceService;

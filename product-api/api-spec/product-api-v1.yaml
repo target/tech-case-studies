@@ -4,7 +4,7 @@ info:
   description: Read-only API for product catalog, pricing, and availability.
   version: "1.0"
 servers:
-- url: http://localhost:8080/v1
+- url: http://localhost:8080/products/v1
   description: Generated server url
 paths:
   /prices/{id}:

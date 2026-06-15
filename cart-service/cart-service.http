@@ -3,10 +3,10 @@
 GET http://localhost:8081/actuator/health
 
 ### Get Cart
-GET http://localhost:8081/cart/v1/carts/100
+GET http://localhost:8081/carts/v1/carts/100
 
 ### Create Cart
-POST http://localhost:8081/cart/v1/carts
+POST http://localhost:8081/carts/v1/carts
 Accept: application/json
 Content-Type: application/json
 
@@ -16,16 +16,16 @@ Content-Type: application/json
 ]
 
 ### Remove Item from Cart (The T-Shirt)
-DELETE http://localhost:8081/cart/v1/carts/100/items/456788
+DELETE http://localhost:8081/carts/v1/carts/100/items/456788
 
 ### Add Item to Cart (The T-Shirt)
-POST http://localhost:8081/cart/v1/carts/100/items
+POST http://localhost:8081/carts/v1/carts/100/items
 Content-Type: application/json
 
 {"tcin" : "456788", "quantity": 2}
 
 ### Updates item quantity in the cart
-PATCH http://localhost:8081/cart/v1/carts/100/items/456788
+PATCH http://localhost:8081/carts/v1/carts/100/items/456788
 Content-Type: application/json
 
 {"quantity": 3}

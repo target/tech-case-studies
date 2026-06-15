@@ -21,6 +21,6 @@ public class BaseIntegrationTest {
     protected String invalidProductId = "999999999";
 
     public ResultActions getResponse(String url) throws Exception {
-        return mockMvc.perform(get("/v1" + url));
+        return mockMvc.perform(get("/products/v1" + url));
     }
 }

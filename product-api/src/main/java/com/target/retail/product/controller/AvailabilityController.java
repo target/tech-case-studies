@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/products/v1")
 public class AvailabilityController {
 
     private final AvailabilityService availabilityService;
