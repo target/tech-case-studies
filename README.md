@@ -59,8 +59,8 @@ Both services expose Swagger UI and OpenAPI docs:
 
 | Service      | Swagger UI                                    | API docs                         |
 | ------------ | --------------------------------------------- | -------------------------------- |
-| product  | <http://localhost:8080/swagger-ui/index.html> | <http://localhost:8080/v3/api-docs> |
-| cart | <http://localhost:8081/swagger-ui/index.html> | <http://localhost:8081/v3/api-docs> |
+| product  | <http://localhost:8080/swagger-ui/index.html> | <http://localhost:8080/docs> |
+| cart | <http://localhost:8081/swagger-ui/index.html> | <http://localhost:8081/docs> |
 
 HTTP request files for use with IntelliJ or VS Code are available at:
 

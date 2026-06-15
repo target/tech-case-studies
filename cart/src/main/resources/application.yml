@@ -1,6 +1,10 @@
 server:
   port: 8081
 
+springdoc:
+  api-docs:
+    path: /docs
+
 cors:
   allowed-origin-patterns: ["http://localhost:*"]
   allowed-methods: ["*"]

@@ -21,7 +21,7 @@ impserver:
 springdoc:
   api-docs:
     enabled: true
-    path: api-docs
+    path: /docs
   swagger-ui:
     enabled: true
 

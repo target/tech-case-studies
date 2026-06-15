@@ -2,6 +2,16 @@
 ### Health Check
 GET http://localhost:8081/actuator/health
 
+### Open API (json)
+GET http://localhost:8081/docs
+Content-Type: application/json
+
+### Open API (yml)
+GET http://localhost:8081/docs.yaml
+
+### Swagger UI
+GET http://localhost:8081/swagger-ui/index.html
+
 ### Get Cart
 GET http://localhost:8081/cart/v1/carts/100
 
