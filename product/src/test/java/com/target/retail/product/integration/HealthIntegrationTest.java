@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.SpecVersion;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,9 +27,8 @@ public class HealthIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    @Disabled("Unable to get this test to work even though the endpoint is working")
     public void testOpenApiSpec() throws Exception {
-        String specBody = mockMvc.perform(get("/api-docs"))
+        String specBody = mockMvc.perform(get("/docs"))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
