@@ -1,0 +1,41 @@
+
+### Health Check
+GET http://localhost:8081/actuator/health
+
+### Open API (json)
+GET http://localhost:8081/docs
+Content-Type: application/json
+
+### Open API (yml)
+GET http://localhost:8081/docs.yaml
+
+### Swagger UI
+GET http://localhost:8081/swagger-ui/index.html
+
+### Get Cart
+GET http://localhost:8081/cart/v1/carts/100
+
+### Create Cart
+POST http://localhost:8081/cart/v1/carts
+Accept: application/json
+Content-Type: application/json
+
+[
+  {"tcin" : "123456", "quantity": 12},
+  {"tcin" : "789123", "quantity": 12}
+]
+
+### Remove Item from Cart (The T-Shirt)
+DELETE http://localhost:8081/cart/v1/carts/100/items/456788
+
+### Add Item to Cart (The T-Shirt)
+POST http://localhost:8081/cart/v1/carts/100/items
+Content-Type: application/json
+
+{"tcin" : "456788", "quantity": 2}
+
+### Updates item quantity in the cart
+PATCH http://localhost:8081/cart/v1/carts/100/items/456788
+Content-Type: application/json
+
+{"quantity": 3}

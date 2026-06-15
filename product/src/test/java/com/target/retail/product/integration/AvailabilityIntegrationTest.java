@@ -1,0 +1,22 @@
+package com.target.retail.product.integration;
+
+import org.junit.jupiter.api.Test;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.equalTo;
+
+public class AvailabilityIntegrationTest extends BaseIntegrationTest {
+
+    @Test
+    public void testGetAvailability() throws Exception {
+        getResponse("/availability/" + testProductId)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.item_id").value(equalTo(testProductId)));
+    }
+
+    @Test
+    public void testGetAvailability_notfound() throws Exception {
+        getResponse("/availability/" + invalidProductId)
+                .andExpect(status().isNotFound());
+    }
+}
