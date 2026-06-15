@@ -1,0 +1,24 @@
+server:
+  port: 8081
+
+cors:
+  allowed-origin-patterns: ["http://localhost:*"]
+  allowed-methods: ["*"]
+  allowed-headers: ["*"]
+  allow-credentials: false
+
+cart:
+  path: /data/carts/
+
+clients:
+  price-service:
+    base-url: http://product:8080/product/v1
+  item-service:
+    base-url: http://product:8080/product/v1
+
+taxes:
+  defaultRate: 7.23
+  ratesByCategory:
+    APPAREL: 0
+    DAIRY: 0
+    LUXURY: 12.34

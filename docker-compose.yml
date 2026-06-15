@@ -1,22 +1,22 @@
 services:
-  product-api:
+  product:
     build:
-      context: product-api
+      context: product
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/v1/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/product/v1/health"]
       interval: 5s
       timeout: 3s
       retries: 3
       start_period: 10s
   cart:
     build:
-      context: cart-service
+      context: cart
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
     depends_on:
-      product-api:
+      product:
         condition: service_healthy

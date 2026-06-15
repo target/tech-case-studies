@@ -21,7 +21,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        service: [product-api, cart-service]
+        service: [product, cart]
 
     steps:
       - name: Checkout
@@ -56,7 +56,7 @@ jobs:
       packages: write
     strategy:
       matrix:
-        service: [product-api, cart-service]
+        service: [product, cart]
 
     steps:
       - name: Checkout
