@@ -1,5 +1,7 @@
 FROM eclipse-temurin:17-jre
 
+LABEL org.opencontainers.image.description="Shopping cart REST API with CRUD operations. Calls product at runtime for item and price enrichment."
+
 WORKDIR /app
 
 COPY build/libs/cart.jar /app/cart.jar

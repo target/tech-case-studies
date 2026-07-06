@@ -1,5 +1,7 @@
 FROM eclipse-temurin:17-jre@sha256:3443191793fb27f7df8bab42821d149eec9e280ab28e816e713387548c4dfcc6
 
+LABEL org.opencontainers.image.description="Read-only REST API serving synthetic product catalog, pricing, and inventory availability"
+
 # Set the working directory in the container
 WORKDIR /app
 
