@@ -1,7 +1,7 @@
 [versions]
 springBoot = "3.5.10"
 springDoc = "2.8.15"
-jacksonCsv = "2.21.0"
+jacksonCsv = "2.22.1"
 springDependencyManagement = "1.1.7"
 
 [libraries]
